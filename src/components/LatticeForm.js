@@ -27,7 +27,9 @@ const LatticeForm = ({setValues}) => {
     };
     function handleSubmit(event) {
         event.preventDefault();
-        setValues([+amplitude, +Z1, +Z2, +Z3, +l1, +v1])
+        Z4!==""?
+                setValues([+amplitude, +Z1, +Z2, [+Z3, +Z4], +l1, +v1]):
+                setValues([+amplitude, +Z1, +Z2, +Z3, +l1, +v1])
     }
     function handleExample(event){
         event.preventDefault();
@@ -56,7 +58,6 @@ const LatticeForm = ({setValues}) => {
             <FormWrapper onSubmit={handleSubmit}>
                 <Stack>
                     <RadioGroup
-                    aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"
                     value={lineType}
                     onChange={handleRadio}
