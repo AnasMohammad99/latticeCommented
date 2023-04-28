@@ -97,7 +97,11 @@ const LatticeForm = ({setValues}) => {
                         fullWidth
                         required
                     />
-                    <Checkbox checked={Z3Inf} onChange={e => setZ3Inf(!Z3Inf)} />
+                    <FormControlLabel control={<Checkbox checked={Z3Inf} onChange={e => {
+                        setZ3Inf(!Z3Inf);
+                        setZ3(Infinity);
+                        return 0
+                    }} />} label="Z3 inf" />
                     {
                         lineType==="parallel"&&<TextField
                         type="number"
@@ -126,7 +130,7 @@ const LatticeForm = ({setValues}) => {
                         type="number"
                         variant='outlined'
                         color='secondary'
-                        label="line lenght (m)"
+                        label="line length (m)"
                         onChange={e => setL1(e.target.value)}
                         value={l1}
                         fullWidth
