@@ -54,7 +54,7 @@ const LatticeForm = ({setValues}) => {
     }
     return (
         <React.Fragment>
-            <h2>Lattice Data</h2>
+            <FormTitle>Lattice Data</FormTitle>
             <FormWrapper onSubmit={handleSubmit}>
                 <Stack>
                     <RadioGroup
@@ -157,6 +157,9 @@ const LatticeForm = ({setValues}) => {
     )
 }
 const FormWrapper = styled.form`
+`
+const FormTitle = styled.h2`
+color: #2276FF;
 `
  
 export default LatticeForm;
