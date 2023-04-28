@@ -71,7 +71,7 @@ const LatticeForm = ({setValues}) => {
                         type="number"
                         variant='outlined'
                         color='secondary'
-                        label="Z1"
+                        label="Z1 (&#8486;)"
                         onChange={e => setZ1(e.target.value)}
                         value={Z1}
                         fullWidth
@@ -81,7 +81,7 @@ const LatticeForm = ({setValues}) => {
                         type="number"
                         variant='outlined'
                         color='secondary'
-                        label="Z2"
+                        label="Z2 (&#8486;)"
                         onChange={e => setZ2(e.target.value)}
                         value={Z2}
                         fullWidth
@@ -91,7 +91,7 @@ const LatticeForm = ({setValues}) => {
                         type={Z3Inf?"text":"number"}
                         variant='outlined'
                         color='secondary'
-                        label="Z3"
+                        label="Z3 (&#8486;)"
                         onChange={e => Z3Inf?setZ3(Infinity):setZ3(e.target.value)}
                         value={`${Z3}`}
                         fullWidth
@@ -103,7 +103,7 @@ const LatticeForm = ({setValues}) => {
                         type="number"
                         variant='outlined'
                         color='secondary'
-                        label="Z4"
+                        label="Z4 (&#8486;)"
                         onChange={e => setZ4(e.target.value)}
                         value={`${Z4}`}
                         fullWidth
@@ -115,7 +115,7 @@ const LatticeForm = ({setValues}) => {
                     type="number"
                     variant='outlined'
                     color='secondary'
-                    label="Amplitude Volt"
+                    label="Amplitude Volt (KV)"
                     onChange={e => setAmplitude(e.target.value)}
                     value={amplitude}
                     fullWidth
@@ -126,7 +126,7 @@ const LatticeForm = ({setValues}) => {
                         type="number"
                         variant='outlined'
                         color='secondary'
-                        label="first line lenght"
+                        label="line lenght (m)"
                         onChange={e => setL1(e.target.value)}
                         value={l1}
                         fullWidth
@@ -138,7 +138,7 @@ const LatticeForm = ({setValues}) => {
                         type="number"
                         variant='outlined'
                         color='secondary'
-                        label="first line velocity"
+                        label="line velocity m/&micro;s"
                         onChange={e => setV1(e.target.value)}
                         value={v1}
                         fullWidth
