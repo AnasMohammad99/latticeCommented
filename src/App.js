@@ -1,25 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
+import LatticeForm from './components/LatticeForm';
+import LatticeChart from './components/LatticeChart';
+import { useState } from "react";
 
 function App() {
+  const [values, setValues] = useState([0,0,0,0,0,0])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper>
+      <ProjectTitle>
+        Bewley Lattice digram
+      </ProjectTitle>
+      <LayoutWrapper>
+        <SidebarWrapper>
+          <LatticeForm setValues={setValues} />
+        </SidebarWrapper>
+        <BodyWrapper>
+          <LatticeChart values={values} />
+        </BodyWrapper>
+      </LayoutWrapper>
+    </Wrapper>
   );
 }
-
+const Wrapper = styled.div`
+`
+const ProjectTitle = styled.h1`
+    background-color: white;
+    padding: 0 5px 5px 5px;
+    margin: 25px 25px 0 25px;
+    border-radius: 10px;
+    text-align: center;
+    color: #2276FF;
+`
+const LayoutWrapper = styled.div`
+    /* background-color: green; */
+    display: flex;
+    @media (max-width: 876px) {
+    flex-direction: column;
+  }
+`
+const SidebarWrapper = styled.div`
+    /* background-color: red; */
+    height: 100%;
+    background-color: white;
+    margin: 25px;
+    margin-right: 0;
+    border-radius:10px;
+    padding: 20px;
+    @media (max-width: 876px) {
+      margin-right: 25px;
+  }
+`
+const BodyWrapper = styled.div`
+    background-color: white;
+    margin: 25px;
+    border-radius:10px;
+    padding: 20px;
+`
 export default App;
