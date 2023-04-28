@@ -8,7 +8,7 @@ function App() {
   return (
     <Wrapper>
       <ProjectTitle>
-        Bewley Lattice digram
+        Bewley Lattice diagram
       </ProjectTitle>
       <LayoutWrapper>
         <SidebarWrapper>
