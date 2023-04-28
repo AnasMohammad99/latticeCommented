@@ -60,6 +60,7 @@ const LatticeChart = ({values}) => {
       }
     ]
   };
+  
   return (
     <LineWrapper>
       <Line data={data1} />

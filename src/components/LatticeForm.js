@@ -8,9 +8,15 @@ const LatticeForm = ({setValues}) => {
     const [Z1, setZ1] = useState("");
     const [Z2, setZ2] = useState("");
     const [Z3, setZ3] = useState("");
+    const [L1, setL1] = useState("");
+    const [L2, setL2] = useState("");
+    const [L3, setL3] = useState("");
+    const [C1, setC1] = useState("");
+    const [C2, setC2] = useState("");
+    const [C3, setC3] = useState("");
     const [Z3Inf, setZ3Inf] = useState(false);
     const [Z4, setZ4] = useState("");
-    const [l1, setL1] = useState("");
+    const [len1, setLen1] = useState("");
     const [v1, setV1] = useState("");
     const [lineType, setLineType] = useState("series");
 
@@ -20,7 +26,7 @@ const LatticeForm = ({setValues}) => {
         setZ2("")
         setZ3("")
         setZ4("")
-        setL1("")
+        setLen1("")
         setV1("")
         setAmplitude("")
         setZ3Inf(false)
@@ -28,15 +34,15 @@ const LatticeForm = ({setValues}) => {
     function handleSubmit(event) {
         event.preventDefault();
         Z4!==""?
-                setValues([+amplitude, +Z1, +Z2, [+Z3, +Z4], +l1, +v1]):
-                setValues([+amplitude, +Z1, +Z2, +Z3, +l1, +v1])
+                setValues([+amplitude, +Z1, +Z2, [+Z3, +Z4], +len1, +v1]):
+                setValues([+amplitude, +Z1, +Z2, +Z3, +len1, +v1])
     }
     function handleExample(event){
         event.preventDefault();
         setZ1(500)
         setZ2(100)
         setZ3(250)
-        setL1(500)
+        setLen1(500)
         setV1(250)
         setAmplitude(50)
         setZ3Inf(false)
@@ -47,7 +53,7 @@ const LatticeForm = ({setValues}) => {
         setZ2("")
         setZ3("")
         setZ4("")
-        setL1("")
+        setLen1("")
         setV1("")
         setAmplitude("")
         setZ3Inf(false)
@@ -131,8 +137,8 @@ const LatticeForm = ({setValues}) => {
                         variant='outlined'
                         color='secondary'
                         label="line length (m)"
-                        onChange={e => setL1(e.target.value)}
-                        value={l1}
+                        onChange={e => setLen1(e.target.value)}
+                        value={len1}
                         fullWidth
                         required
                         sx={{mb: 4}}
@@ -142,7 +148,7 @@ const LatticeForm = ({setValues}) => {
                         type="number"
                         variant='outlined'
                         color='secondary'
-                        label="line velocity m/&micro;s"
+                        label="line velocity (m/&micro;s)"
                         onChange={e => setV1(e.target.value)}
                         value={v1}
                         fullWidth

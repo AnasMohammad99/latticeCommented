@@ -67,7 +67,7 @@ function timeCalculation(l1, v1){
     let lineLength = l1;
     let velocity = v1;
     let travelTime = lineLength/velocity;
-    let time = [[travelTime],[0]];
+    let time = [[0],[travelTime]];
     let i = 1;
     while (i<=6) {
         time[0].push(time[0][i-1]+2*travelTime)
