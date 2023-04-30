@@ -6,10 +6,10 @@ import styled from "styled-components";
 import { VoltageAndTimeCalculation } from "../ThreeJCalculations";
 
 Chart.register(CategoryScale);
-const LatticeChart = ({threeJValues, numOfJ}) => {
+const LatticeChart = ({threeJValues}) => {
   console.log(threeJValues);
-  let [amplitude, Z1, Z2, Z3, Z4, len1, len2, v1, v2] = threeJValues
-  let [voltageArr, currentArr, timeArr] = VoltageAndTimeCalculation(amplitude, Z1, Z2, Z3, Z4, len1, len2, v1, v2);
+  let [amplitude, NumOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2] = threeJValues
+  let [voltageArr, currentArr, timeArr] = VoltageAndTimeCalculation(amplitude, NumOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2);
   const data1 = {
     labels: timeArr[0],
     datasets: [
@@ -38,7 +38,7 @@ const LatticeChart = ({threeJValues, numOfJ}) => {
     labels: timeArr[1],
     datasets: [
       {
-          label: 'Volt B',
+          label: 'Volt C',
           data: voltageArr[1],
           borderColor: "rgb(155, 49, 132)",
           fill: false,
@@ -50,7 +50,7 @@ const LatticeChart = ({threeJValues, numOfJ}) => {
     labels: timeArr[1],
     datasets: [
       {
-          label: 'Current B',
+          label: 'Current C',
           data: currentArr[1],
           borderColor: "rgb(155, 49, 132)",
           fill: false,
@@ -62,7 +62,7 @@ const LatticeChart = ({threeJValues, numOfJ}) => {
     labels: timeArr[2],
     datasets: [
         {
-          label: 'Volt C',
+          label: 'Volt B',
           data: voltageArr[2],
           borderColor: "rgb(53, 162, 235)",
           fill: false,
@@ -74,7 +74,7 @@ const LatticeChart = ({threeJValues, numOfJ}) => {
     labels: timeArr[2],
     datasets: [
         {
-          label: 'Current C',
+          label: 'Current B',
           data: currentArr[2],
           borderColor: "rgb(53, 162, 235)",
           fill: false,
@@ -88,7 +88,7 @@ const LatticeChart = ({threeJValues, numOfJ}) => {
       <Line data={data1} />
       <Line data={data2} />
       {
-        numOfJ==="ThreeJunctions"&&
+        NumOfJ==="ThreeJunctions"&&
         <>
           <Line data={data3} />
           <Line data={data4} />

@@ -73,27 +73,27 @@ const LatticeForm = ({setTwoJValues}) => {
             setTwoJValues([+amplitude, +Z1, +Z2, +Z3, +len1, +v1])
         }
     }
-    function handleExampleOne(event){
-        event.preventDefault();
-        setZ1(400)
-        setZ2(100)
-        setZ3(Infinity)
-        setLen1(300)
-        setV1(150)
-        setAmplitude(100)
-        setZ3Inf(true)
-    }
-    function handleExampleTwo(event){
-        event.preventDefault();
-        setZ1(500)
-        setZ2(100)
-        setZ3(Infinity)
-        setZ4(250)
-        setLen1(500)
-        setV1(250)
-        setAmplitude(50)
-        setZ3Inf(true)
-    }
+    // function handleExampleOne(event){
+    //     event.preventDefault();
+    //     setZ1(400)
+    //     setZ2(100)
+    //     setZ3(Infinity)
+    //     setLen1(300)
+    //     setV1(150)
+    //     setAmplitude(100)
+    //     setZ3Inf(true)
+    // }
+    // function handleExampleTwo(event){
+    //     event.preventDefault();
+    //     setZ1(500)
+    //     setZ2(100)
+    //     setZ3(Infinity)
+    //     setZ4(250)
+    //     setLen1(500)
+    //     setV1(250)
+    //     setAmplitude(50)
+    //     setZ3Inf(true)
+    // }
     
     function handleReset(event){
         event.preventDefault();
@@ -318,13 +318,13 @@ const LatticeForm = ({setTwoJValues}) => {
                     />
                     <Stack spacing={2} direction="row" sx={{marginBottom: 2}} justifyContent={"space-between"}>
                         <Button variant="outlined" color="secondary" type="submit">Draw</Button>
-                        {
+                        {/* {
                             lineType==="series"&impedanceType==="Z"?
                             <Button variant="outlined" color="secondary" onClick={handleExampleOne}>Example 1</Button> :
                             lineType==="TJunction"&impedanceType==="Z"?
                             <Button variant="outlined" color="secondary" onClick={handleExampleTwo}>Example 2</Button>:
                             null
-                        }
+                        } */}
                         <Button variant="outlined" color="secondary" onClick={handleReset}>Reset</Button>
                     </Stack>
             </FormWrapper>     

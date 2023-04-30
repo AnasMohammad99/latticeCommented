@@ -1,4 +1,4 @@
-    function VoltageAndTimeCalculation(amplitude, Z1, Z2, Z3, Z4, len1, len2, v1, v2) {
+    function VoltageAndTimeCalculation(amplitude, numOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2) {
         let Vi = amplitude*1000;
         let values = [Z1,Z2,Z3,Z4];
         let t1 = len1/v1;
@@ -12,7 +12,6 @@
         let time = [[],[],[]]
         let current = [[],[],[]];
         let currentLR = [[],[]];
-        let NumOfJ = "2J"
         //this for loop to create tau and rho
         for (let i = 0; i < 3; i++) {
             if(values[i+1]===Infinity){
@@ -60,7 +59,7 @@
         let t01 = t1
         let t02 = t2
         while(i<=1000){
-            if(NumOfJ==="2J"){
+            if(numOfJ==="TwoJunctions"){
                 j = i+1;
                 t01 = -t1
                 t02 = -t2
@@ -138,9 +137,11 @@
                     }
                 }
             }
+            console.log(newVoltage, newTime);
             return[newVoltage, newCurrent, newTime]
+
     }
-// console.log(VoltageAndTimeCalculation(.5, 0, 400, 40, Infinity, 450, 300, 300, 150));
+// console.log(VoltageAndTimeCalculation(50, "ThreeJunctions", 500, 100, 250,[Infinity, 300], 300, 500, 200, 250));
 
 export {
     VoltageAndTimeCalculation

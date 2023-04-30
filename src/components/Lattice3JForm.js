@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import { TextField, Button, Stack, Checkbox, Radio, RadioGroup, FormControlLabel } from '@mui/material';
+import { TextField, Button, Stack, Checkbox, Radio, RadioGroup, FormControlLabel, ToggleButtonGroup, ToggleButton } from '@mui/material';
 import styled from 'styled-components';
  
  
-const LatticeForm = ({setThreeJValues, numOfJ}) => {
+const LatticeForm = ({setThreeJValues}) => {
     const [amplitude, setAmplitude] = useState("");
     const [Z1, setZ1] = useState("");
     const [Z2, setZ2] = useState("");
@@ -15,8 +15,10 @@ const LatticeForm = ({setThreeJValues, numOfJ}) => {
     const [len2, setLen2] = useState("");
     const [v1, setV1] = useState("");
     const [v2, setV2] = useState("");
+    // const [NumOfJ,, setNumOfJ,] = useState("2J")
     const [lineType, setLineType] = useState("series");
     const [impedanceType, setImpedanceType] = useState("Z");
+    const [numOfJ, setNumOfJ] = useState('TwoJunctions');
 
     const handleLineTypeRadio = (event) => {
         setLineType(event.target.value);
@@ -46,16 +48,47 @@ const LatticeForm = ({setThreeJValues, numOfJ}) => {
     // }
      function handleSubmit(event) {
         event.preventDefault();
-        Z5!==""?
-                setThreeJValues([+amplitude, +Z1, +Z2, +Z3, [+Z4, +Z5], +len1, +len2, +v1, +v2]):
-                setThreeJValues([+amplitude, +Z1, +Z2, +Z3, +Z4, +len1, +len2, +v1, +v2])
+        numOfJ==="TwoJunctions"&Z5===""?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z2, +Z4, +len1/2, +len1/2, +v1, +v1]):
+        numOfJ==="TwoJunctions"&Z5!==""?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, [+Z4, +Z5], +len1/2, +len1/2, +v1, +v2]):
+        numOfJ==="ThreeJunctions"&Z5===""?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, +Z4, +len1, +len2, +v1, +v2]):
+        numOfJ==="ThreeJunctions"&Z5!==""?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, [+Z4, +Z5], +len1, +len2, +v1, +v2]):setThreeJValues([0,0,0,0,0,0,0,0,0])
     }
+    function handleExampleOne(event){
+        event.preventDefault();
+        setZ1(400)
+        setZ2(100)
+        setZ3(100)
+        setZ4(Infinity)
+        setZ5("")
+        setLen1(300)
+        setV1(150)
+        setLen2(300/2)//we will send this value to calculations two times
+        setV2(150)//we will send this value to calculations two times
+        setAmplitude(100)
+        setZ4Inf(true)
+    }
+    function handleExampleTwo(event){
+        event.preventDefault();
+        setZ1(500)
+        setZ2(100)
+        setZ3(100)
+        setZ4(Infinity)
+        setZ5(250)
+        setLen1(500)
+        setV1(250)
+        setLen2(500/2)//we will send this value to calculations two times
+        setV2(250)//we will send this value to calculations two times
+        setAmplitude(50)
+        setZ4Inf(true)
+    }
+    
     function handleExampleThree(event){
         event.preventDefault();
         setZ1(0)
         setZ2(400)
         setZ3(40)
         setZ4(Infinity)
+        setZ5("")
         setLen1(450)
         setLen2(300)
         setV1(300)
@@ -92,9 +125,39 @@ const LatticeForm = ({setThreeJValues, numOfJ}) => {
         setAmplitude("");
         setZ4Inf(false);
     }
+    const handleChangeJ = (event, currentNumOfJ) => {
+        setNumOfJ(currentNumOfJ);
+        // setTwoJValues([0,0,0,0,0,0])
+        setZ1("");
+        setZ2("");
+        setZ3("");
+        setZ4("");
+        setZ5("");
+        setLen1("");
+        setV1("");
+        setLen2("");
+        setV2("");
+        setAmplitude("");
+        setZ4Inf(false);
+        setThreeJValues([0,0,0,0,0,0,0,0,0])
+        console.log(currentNumOfJ);
+      };
     return (
         <Wrapper>
-            <FormTitle>3 junctions Data</FormTitle>
+            <ToggleButtonGroup
+            color="primary"
+            value={numOfJ}
+            exclusive
+            onChange={handleChangeJ}
+            >
+                <ToggleButton value="TwoJunctions">2 Junctions</ToggleButton>
+                <ToggleButton value="ThreeJunctions">3 Junctions</ToggleButton>
+            </ToggleButtonGroup>
+            <FormTitle>
+                {
+                    numOfJ==="ThreeJunctions"?"3 junctions Data":"2 junctions Data"
+                }
+                </FormTitle>
             <FormWrapper onSubmit={handleSubmit}>
                 <Stack>
                     <RadioGroup
@@ -139,13 +202,23 @@ const LatticeForm = ({setThreeJValues, numOfJ}) => {
                             required
                         />
                         {
-                            numOfJ==="ThreeJunctions"&&<TextField
+                            numOfJ==="ThreeJunctions"?<TextField
                             type="number"
                             variant='outlined'
                             color='secondary'
                             label="Z3 (&#8486;)"
                             onChange={e => setZ3(e.target.value)}
                             value={`${Z3}`}
+                            fullWidth
+                            required
+                        />:
+                        <TextField
+                            style={{display:"none"}}
+                            type="number"
+                            variant='outlined'
+                            color='secondary'
+                            label="Z3===Z2 (&#8486;)"
+                            value={`${Z2}`}
                             fullWidth
                             required
                         />
@@ -203,13 +276,25 @@ const LatticeForm = ({setThreeJValues, numOfJ}) => {
                         sx={{mb: 4}}
                         />
                         {
-                            numOfJ==="ThreeJunctions"&&<TextField
+                            numOfJ==="ThreeJunctions"?<TextField
                             type="number"
                             variant='outlined'
                             color='secondary'
                             label="line 2 length (m)"
                             onChange={e => setLen2(e.target.value)}
                             value={len2}
+                            fullWidth
+                            required
+                            sx={{mb: 4}}
+                            />:
+                            <TextField
+                            style={{display:"none"}}
+                            type="number"
+                            variant='outlined'
+                            color='secondary'
+                            label="line 2 === line 1 length (m)"
+                            // onChange={e => setLen2(e.target.value)}
+                            value={len1}
                             fullWidth
                             required
                             sx={{mb: 4}}
@@ -229,7 +314,7 @@ const LatticeForm = ({setThreeJValues, numOfJ}) => {
                         sx={{mb: 4}}
                     />
                     {
-                        numOfJ==="ThreeJunctions"&&<TextField
+                        numOfJ==="ThreeJunctions"?<TextField
                         type="number"
                         variant='outlined'
                         color='secondary'
@@ -239,18 +324,41 @@ const LatticeForm = ({setThreeJValues, numOfJ}) => {
                         fullWidth
                         required
                         sx={{mb: 4}}
+                    />:
+                    <TextField
+                    style={{display:"none"}}
+                        type="number"
+                        variant='outlined'
+                        color='secondary'
+                        label="line 2 velocity (m/&micro;s)"
+                        onChange={e => setV2(e.target.value)}
+                        value={v1}
+                        fullWidth
+                        required
+                        sx={{mb: 4}}
                     />
                     }
                 </Stack>
                     <Stack spacing={2} direction="row" sx={{marginBottom: 2}} justifyContent={"space-between"}>
                         <Button variant="outlined" color="secondary" type="submit">Draw</Button>
                         {
+                            lineType==="series"&numOfJ==="TwoJunctions"?
+                            <Button variant="outlined" color="secondary" onClick={handleExampleOne}>Example 1</Button>:
+                            lineType==="TJunction"&numOfJ==="TwoJunctions"?
+                            <Button variant="outlined" color="secondary" onClick={handleExampleTwo}>Example 2</Button>:
+                            lineType==="series"&numOfJ==="ThreeJunctions"?
+                            <Button variant="outlined" color="secondary" onClick={handleExampleThree}>Example 3</Button>:
+                            lineType==="TJunction"&numOfJ==="ThreeJunctions"?
+                            <Button variant="outlined" color="secondary" onClick={handleExampleFour}>Example 4</Button>:
+                            null
+                        }
+                        {/* {
                             lineType==="series"&impedanceType==="Z"?
                             <Button variant="outlined" color="secondary" onClick={handleExampleThree}>Example 3</Button> :
                             lineType==="TJunction"&impedanceType==="Z"?
                             <Button variant="outlined" color="secondary" onClick={handleExampleFour}>Example 4</Button>:
                             null
-                        }
+                        } */}
                         <Button variant="outlined" color="secondary" onClick={handleReset}>Reset</Button>
                     </Stack>
             </FormWrapper>     
