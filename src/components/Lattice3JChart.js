@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { VoltageAndTimeCalculation } from "../ThreeJCalculations";
 
 Chart.register(CategoryScale);
-const LatticeChart = ({threeJValues}) => {
+const LatticeChart = ({threeJValues, numOfJ}) => {
   console.log(threeJValues);
   let [amplitude, Z1, Z2, Z3, Z4, len1, len2, v1, v2] = threeJValues
   let [voltageArr, currentArr, timeArr] = VoltageAndTimeCalculation(amplitude, Z1, Z2, Z3, Z4, len1, len2, v1, v2);
@@ -87,8 +87,13 @@ const LatticeChart = ({threeJValues}) => {
     <LineWrapper>
       <Line data={data1} />
       <Line data={data2} />
-      <Line data={data3} />
-      <Line data={data4} />
+      {
+        numOfJ==="ThreeJunctions"&&
+        <>
+          <Line data={data3} />
+          <Line data={data4} />
+        </>
+      }
       <Line data={data5} />
       <Line data={data6} />
     </LineWrapper>

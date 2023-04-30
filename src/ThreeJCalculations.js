@@ -12,6 +12,7 @@
         let time = [[],[],[]]
         let current = [[],[],[]];
         let currentLR = [[],[]];
+        let NumOfJ = "2J"
         //this for loop to create tau and rho
         for (let i = 0; i < 3; i++) {
             if(values[i+1]===Infinity){
@@ -32,7 +33,7 @@
         voltageLR[1].push(Vi*tauF[0]*tauF[1])
         voltage[1].push(voltageLR[1][0])
         let i = 1
-        while (i<=8) {
+        while (i<=1000) {
             time[1].push(time[1][i-1]+2*t1);
             voltageLR[0].push((voltageLR[0][i-1])*rhoR[0]*rhoF[1]);
             voltageLR[1].push((voltageLR[0][i-1])*rhoR[0]*tauF[1]);
@@ -55,14 +56,24 @@
         time[2].push(0)
         voltage[0].push(Vi*tauF[0])
         voltage[2].push(0)
-        while(i<=8){
-                time[0].push(time[1][i-1]+t1)
+        let j = 2;
+        let t01 = t1
+        let t02 = t2
+        while(i<=1000){
+            if(NumOfJ==="2J"){
+                j = i+1;
+                t01 = -t1
+                t02 = -t2
+            } else {
+                j=i;
+            }
+                time[0].push(time[1][j-1]+t01)
                 voltage[0].push(voltage[0][i-1]+(voltageLR[0][i-1])*tauR[0])
                 if(time[0][i]===time[0][i-1]){
                     voltage[0][i-1]=voltage[0][i]
                 }
 
-                time[2].push(time[1][i-1]+t2)
+                time[2].push(time[1][j-1]+t02)
                 voltage[2].push(voltage[2][i-1]+(voltageLR[1][i-1])*tauF[2])
                 if(time[2][i]===time[2][i-1]){
                     voltage[2][i-1]=voltage[2][i]
@@ -73,13 +84,13 @@
         let tauiF = tauR;
         let tauiR = tauF;
         let rhoiF = rhoR;
-        let rhoiR = rhoR;
+        let rhoiR = rhoF;
         let Ii = (Vi/Z1)
         currentLR[0].push(Ii*tauiF[0]*rhoiF[1])
         currentLR[1].push(Ii*tauiF[0]*tauiF[1])
         current[1].push(currentLR[1][0])
         i = 1
-        while (i<=8) {
+        while (i<=1000) {
             currentLR[0].push((currentLR[0][i-1])*rhoiR[0]*rhoiF[1]);
             currentLR[1].push((currentLR[0][i-1])*rhoiR[0]*tauiF[1]);
             current[1].push((current[1][2*i-2])+currentLR[1][2*i-1]);
@@ -97,7 +108,7 @@
         i=1
         current[0].push(Ii*tauiF[0])
         current[2].push(0)
-        while(i<=8){
+        while(i<=1000){
                 current[0].push(current[0][i-1]+(currentLR[0][i-1])*tauiR[0])
                 if(time[0][i]===time[0][i-1]){
                     current[0][i-1]=current[0][i]
@@ -113,13 +124,19 @@
         let newTime = [[],[],[]]
         for (let i = 0; i < voltage.length; i++) {
             for (let j = 0; j < voltage[i].length; j++) {
-                if (time[i][j]!==time[i][j+1]){
-                        newTime[i].push(time[i][j])
-                        newVoltage[i].push(voltage[i][j])
-                        newCurrent[i].push(current[i][j])
+                    // for (let k = 1; k < voltage[i].length; k++) {    
+                    // if (time[i][j]!==time[i][j+k]){
+                    //         newTime[i].push(time[i][j])
+                    //         newVoltage[i].push(voltage[i][j])
+                    //         newCurrent[i].push(current[i][j])
+                    //     }
+                    // }
+                    if(!newTime[i].includes(time[i][j])){
+                            newTime[i].push(time[i][j])
+                            newVoltage[i].push(voltage[i][j])
+                            newCurrent[i].push(current[i][j])
                     }
                 }
-                
             }
             return[newVoltage, newCurrent, newTime]
     }

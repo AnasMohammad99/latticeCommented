@@ -34,16 +34,16 @@ function App() {
             <ToggleButton value="ThreeJunctions">3 Junctions</ToggleButton>
           </ToggleButtonGroup>
           {
-            numOfJ === "TwoJunctions"? 
-            <Lattice2JForm setTwoJValues={setTwoJValues} />:
-            <Lattice3JForm setThreeJValues={setThreeJValues} />
+            // numOfJ === "TwoJunctions"? 
+            // <Lattice2JForm setTwoJValues={setTwoJValues} />:
+            <Lattice3JForm numOfJ={numOfJ} setThreeJValues={setThreeJValues} />
           }
         </SidebarWrapper>
         <BodyWrapper>
         {
-            numOfJ === "TwoJunctions"? 
-            <Lattice2JChart twoJValues={twoJValues} />:
-            <Lattice3JChart threeJValues={threeJValues} />
+            // numOfJ === "TwoJunctions"? 
+            // <Lattice2JChart twoJValues={twoJValues} />:
+            <Lattice3JChart numOfJ={numOfJ} threeJValues={threeJValues} />
           }
         </BodyWrapper>
       </LayoutWrapper>

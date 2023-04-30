@@ -23,7 +23,7 @@ function voltageCalculation(Z1, Z2, Z3, amplitude) {
     voltage[0].push(Va*tauF[0])
     voltage[1].push(0)
     let i = 1;
-    while (i<=6) {
+    while (i<=100) {
         voltage[1].push(voltage[1][i-1]+voltage[0][0]*(rhoF[1]**(i-1))*((rhoR[0])**(i-1))*tauF[1])
         voltage[0].push((voltage[0][i-1])+(voltage[0][0]*(rhoF[1]**(i))*((rhoR[0])**(i-1))*(tauR[0])))
         i++;
@@ -56,7 +56,7 @@ function currentCalculation(Z1, Z2, Z3, amplitude) {
     current[0].push(Ia*tauF[0])
     current[1].push(0)
     let i = 1;
-    while (i<=6) {
+    while (i<=100) {
         current[1].push(current[1][i-1]+current[0][0]*(rhoF[1]**(i-1))*((rhoR[0])**(i-1))*tauF[1])
         current[0].push((current[0][i-1])+(current[0][0]*(rhoF[1]**(i))*((rhoR[0])**(i-1))*(tauR[0])))
         i++;
@@ -69,7 +69,7 @@ function timeCalculation(len1, v1){
     let travelTime = lineLength/velocity;
     let time = [[0],[0,travelTime]];
     let i = 1;
-    while (i<=6) {
+    while (i<=100) {
         time[0].push(time[0][i-1]+2*travelTime)
         if (i!==6) time[1].push(time[1][i]+2*travelTime)
         i++;

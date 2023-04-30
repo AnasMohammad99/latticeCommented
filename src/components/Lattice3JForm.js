@@ -3,7 +3,7 @@ import { TextField, Button, Stack, Checkbox, Radio, RadioGroup, FormControlLabel
 import styled from 'styled-components';
  
  
-const LatticeForm = ({setThreeJValues}) => {
+const LatticeForm = ({setThreeJValues, numOfJ}) => {
     const [amplitude, setAmplitude] = useState("");
     const [Z1, setZ1] = useState("");
     const [Z2, setZ2] = useState("");
@@ -138,7 +138,8 @@ const LatticeForm = ({setThreeJValues}) => {
                             fullWidth
                             required
                         />
-                        <TextField
+                        {
+                            numOfJ==="ThreeJunctions"&&<TextField
                             type="number"
                             variant='outlined'
                             color='secondary'
@@ -148,11 +149,12 @@ const LatticeForm = ({setThreeJValues}) => {
                             fullWidth
                             required
                         />
+                        }
                         <TextField
                             type={Z4Inf?"text":"number"}
                             variant='outlined'
                             color='secondary'
-                            label="Z4 (&#8486;)"
+                            label={`${numOfJ==="ThreeJunctions"?"Z4 (\u03A9)":"Z3 (\u03A9)"}`}
                             onChange={e => Z4Inf?setZ4(Infinity):setZ4(e.target.value)}
                             value={`${Z4}`}
                             fullWidth
@@ -162,13 +164,13 @@ const LatticeForm = ({setThreeJValues}) => {
                             setZ4Inf(!Z4Inf);
                             setZ4(Infinity);
                             return 0
-                        }} />} label="Z4 inf" />
+                        }} />} label={`${numOfJ==="ThreeJunctions"?"Z4 Inf":"Z3 Inf"}`} />
                         {
                             lineType==="TJunction"&&<TextField
                             type="number"
                             variant='outlined'
                             color='secondary'
-                            label="Z5 (&#8486;)"
+                            label={`${numOfJ==="ThreeJunctions"?"Z5 (\u03A9)":"Z4 (\u03A9)"}`}
                             onChange={e => setZ5(e.target.value)}
                             value={`${Z5}`}
                             fullWidth
@@ -200,17 +202,19 @@ const LatticeForm = ({setThreeJValues}) => {
                         required
                         sx={{mb: 4}}
                         />
-                        <TextField
-                        type="number"
-                        variant='outlined'
-                        color='secondary'
-                        label="line 2 length (m)"
-                        onChange={e => setLen2(e.target.value)}
-                        value={len2}
-                        fullWidth
-                        required
-                        sx={{mb: 4}}
-                        />
+                        {
+                            numOfJ==="ThreeJunctions"&&<TextField
+                            type="number"
+                            variant='outlined'
+                            color='secondary'
+                            label="line 2 length (m)"
+                            onChange={e => setLen2(e.target.value)}
+                            value={len2}
+                            fullWidth
+                            required
+                            sx={{mb: 4}}
+                            />
+                        }
                 </Stack>
                 <Stack spacing={2} direction="row">
                     <TextField
@@ -224,7 +228,8 @@ const LatticeForm = ({setThreeJValues}) => {
                         required
                         sx={{mb: 4}}
                     />
-                    <TextField
+                    {
+                        numOfJ==="ThreeJunctions"&&<TextField
                         type="number"
                         variant='outlined'
                         color='secondary'
@@ -235,6 +240,7 @@ const LatticeForm = ({setThreeJValues}) => {
                         required
                         sx={{mb: 4}}
                     />
+                    }
                 </Stack>
                     <Stack spacing={2} direction="row" sx={{marginBottom: 2}} justifyContent={"space-between"}>
                         <Button variant="outlined" color="secondary" type="submit">Draw</Button>
