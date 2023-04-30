@@ -19,6 +19,8 @@ const LatticeForm = ({setThreeJValues}) => {
     const [lineType, setLineType] = useState("series");
     const [impedanceType, setImpedanceType] = useState("Z");
     const [numOfJ, setNumOfJ] = useState('TwoJunctions');
+    const [addFault, setAddFault] = useState(false)
+    const [faultLength, setFaultLength] = useState("");
 
     const handleLineTypeRadio = (event) => {
         setLineType(event.target.value);
@@ -48,8 +50,10 @@ const LatticeForm = ({setThreeJValues}) => {
     // }
      function handleSubmit(event) {
         event.preventDefault();
-        numOfJ==="TwoJunctions"&Z5===""?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z2, +Z4, +len1/2, +len1/2, +v1, +v1]):
-        numOfJ==="TwoJunctions"&Z5!==""?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, [+Z4, +Z5], +len1/2, +len1/2, +v1, +v2]):
+        numOfJ==="TwoJunctions"&Z5===""&addFault===false?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z2, +Z4, +len1/2, +len1/2, +v1, +v1]):
+        numOfJ==="TwoJunctions"&Z5===""&addFault===true?setThreeJValues([+amplitude, "ThreeJunctions", +Z1, +Z2, 0, +Z4, +faultLength, +len1 - (+faultLength), +v1, +v1]):
+        numOfJ==="TwoJunctions"&Z5!==""&addFault===false?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, [+Z4, +Z5], +len1/2, +len1/2, +v1, +v1]):
+        numOfJ==="TwoJunctions"&Z5!==""&addFault===true?setThreeJValues([+amplitude, "ThreeJunctions", +Z1, +Z2, 0, [+Z4, +Z5], +faultLength, +len1 - (+faultLength), +v1, +v1]):
         numOfJ==="ThreeJunctions"&Z5===""?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, +Z4, +len1, +len2, +v1, +v2]):
         numOfJ==="ThreeJunctions"&Z5!==""?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, [+Z4, +Z5], +len1, +len2, +v1, +v2]):setThreeJValues([0,0,0,0,0,0,0,0,0])
     }
@@ -123,6 +127,8 @@ const LatticeForm = ({setThreeJValues}) => {
         setLen2("");
         setV2("");
         setAmplitude("");
+        setAddFault(false)
+        setFaultLength("")
         setZ4Inf(false);
     }
     const handleChangeJ = (event, currentNumOfJ) => {
@@ -339,7 +345,28 @@ const LatticeForm = ({setThreeJValues}) => {
                     />
                     }
                 </Stack>
-                    <Stack spacing={2} direction="row" sx={{marginBottom: 2}} justifyContent={"space-between"}>
+                {
+                    numOfJ==="TwoJunctions"&&
+                    <>
+                        <Stack spacing={2} direction="row" sx={{marginBottom: 4}}>
+                        <FormControlLabel control={<Checkbox checked={addFault} onChange={e => setAddFault(!addFault)} />} label={"Add Fault"} />
+                        {
+                            addFault&&<TextField
+                            type="number"
+                            variant='outlined'
+                            color='secondary'
+                            label="length from junction A (m)"
+                            onChange={e =>setFaultLength(e.target.value) }
+                            value={faultLength}
+                            fullWidth
+                            required
+                            />
+                        }
+                        </Stack>
+                    </>
+                }
+
+                <Stack spacing={2} direction="row" sx={{marginBottom: 2}} justifyContent={"space-between"}>
                         <Button variant="outlined" color="secondary" type="submit">Draw</Button>
                         {
                             lineType==="series"&numOfJ==="TwoJunctions"?
@@ -360,7 +387,7 @@ const LatticeForm = ({setThreeJValues}) => {
                             null
                         } */}
                         <Button variant="outlined" color="secondary" onClick={handleReset}>Reset</Button>
-                    </Stack>
+                </Stack>
             </FormWrapper>     
         </Wrapper>
     )
