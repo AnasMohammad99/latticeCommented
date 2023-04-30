@@ -3,12 +3,12 @@ import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import styled from "styled-components";
-import { currentCalculation, timeCalculation, voltageCalculation } from "../calculations";
+import { currentCalculation, timeCalculation, voltageCalculation } from "../TwoJCalculations";
 
 Chart.register(CategoryScale);
-const LatticeChart = ({values}) => {
-  console.log(values);
-  let [amplitude, Z1, Z2, Z3, l1, v1] = values
+const Lattice2JChart = ({twoJValues}) => {
+  console.log(twoJValues);
+  let [amplitude, Z1, Z2, Z3, l1, v1] = twoJValues
   let voltageArr = voltageCalculation(Z1, Z2, Z3, amplitude);
   let currentArr = currentCalculation(Z1, Z2, Z3, amplitude);
   let timeArr = timeCalculation(l1, v1)
@@ -74,4 +74,4 @@ const LatticeChart = ({values}) => {
 const LineWrapper = styled.div`
 
 `
-export default LatticeChart;
+export default Lattice2JChart;

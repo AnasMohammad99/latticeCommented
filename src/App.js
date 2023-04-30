@@ -1,21 +1,50 @@
 import styled from "styled-components";
-import LatticeForm from './components/LatticeForm';
-import LatticeChart from './components/LatticeChart';
+import Lattice2JForm from './components/Lattice2JForm';
+import Lattice3JForm from './components/Lattice3JForm';
+import Lattice2JChart from './components/Lattice2JChart';
+import Lattice3JChart from './components/Lattice3JChart';
 import { useState } from "react";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 function App() {
-  const [values, setValues] = useState([0,0,0,0,0,0])
+  const [twoJValues, setTwoJValues] = useState([0,0,0,0,0,0])
+  const [threeJValues, setThreeJValues] = useState([0,0,0,0,0,0,0,0,0])
+  const [numOfJ, setNumOfJ] = useState('TwoJunctions');
+
+  const handleChangeJ = (event, currentNumOfJ) => {
+    setNumOfJ(currentNumOfJ);
+    setTwoJValues([0,0,0,0,0,0])
+    setThreeJValues([0,0,0,0,0,0,0,0,0])
+    console.log(currentNumOfJ);
+  };
   return (
     <Wrapper>
       <ProjectTitle>
-        Bewley Lattice diagram
+          Bewley Lattice diagram
       </ProjectTitle>
       <LayoutWrapper>
         <SidebarWrapper>
-          <LatticeForm setValues={setValues} />
+          <ToggleButtonGroup
+          color="primary"
+          value={numOfJ}
+          exclusive
+          onChange={handleChangeJ}
+          >
+            <ToggleButton value="TwoJunctions">2 Junctions</ToggleButton>
+            <ToggleButton value="ThreeJunctions">3 Junctions</ToggleButton>
+          </ToggleButtonGroup>
+          {
+            numOfJ === "TwoJunctions"? 
+            <Lattice2JForm setTwoJValues={setTwoJValues} />:
+            <Lattice3JForm setThreeJValues={setThreeJValues} />
+          }
         </SidebarWrapper>
         <BodyWrapper>
-          <LatticeChart values={values} />
+        {
+            numOfJ === "TwoJunctions"? 
+            <Lattice2JChart twoJValues={twoJValues} />:
+            <Lattice3JChart threeJValues={threeJValues} />
+          }
         </BodyWrapper>
       </LayoutWrapper>
     </Wrapper>
@@ -46,7 +75,9 @@ const SidebarWrapper = styled.div`
     margin-right: 0;
     border-radius:10px;
     padding: 20px;
+    /* max-width: 40rem; */
     @media (max-width: 876px) {
+      /* width: 90%; */
       margin-right: 25px;
   }
 `

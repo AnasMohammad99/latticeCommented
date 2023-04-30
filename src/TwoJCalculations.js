@@ -63,15 +63,15 @@ function currentCalculation(Z1, Z2, Z3, amplitude) {
     }
     return current
 } 
-function timeCalculation(l1, v1){
-    let lineLength = l1;
+function timeCalculation(len1, v1){
+    let lineLength = len1;
     let velocity = v1;
     let travelTime = lineLength/velocity;
-    let time = [[0],[travelTime]];
+    let time = [[0],[0,travelTime]];
     let i = 1;
     while (i<=6) {
         time[0].push(time[0][i-1]+2*travelTime)
-        time[1].push(time[1][i-1]+2*travelTime)
+        if (i!==6) time[1].push(time[1][i]+2*travelTime)
         i++;
     }
     return time
