@@ -11,16 +11,16 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
     const [Z4Inf, setZ4Inf] = useState(false);
     const [Z4, setZ4] = useState("");
     const [Z5, setZ5] = useState("");
-    // const [L1, setL1] = useState("");
-    // const [L2, setL2] = useState("");
-    // const [L3, setL3] = useState("");
-    // const [L4, setL4] = useState("");
-    // const [L5, setL5] = useState("");
-    // const [C1, setC1] = useState("");
-    // const [C2, setC2] = useState("");
-    // const [C3, setC3] = useState("");
-    // const [C4, setC4] = useState("");
-    // const [C5, setC5] = useState("");
+    const [L1, setL1] = useState("");
+    const [L2, setL2] = useState("");
+    const [L3, setL3] = useState("");
+    const [L4, setL4] = useState("");
+    const [L5, setL5] = useState("");
+    const [C1, setC1] = useState("");
+    const [C2, setC2] = useState("");
+    const [C3, setC3] = useState("");
+    const [C4, setC4] = useState("");
+    const [C5, setC5] = useState("");
     const [len1, setLen1] = useState("");
     const [len2, setLen2] = useState("");
     const [v1, setV1] = useState("");
@@ -32,6 +32,22 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
     const [addFault, setAddFault] = useState(false)
     const [faultLength, setFaultLength] = useState("");
 
+    function handleSubmit(event) {
+        event.preventDefault();
+        numOfJ==="TwoJunctions"&Z5===""&addFault===false&impedanceType==="Z"?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z2, +Z4, +len1/2, +len1/2, +v1, +v1]):
+        numOfJ==="TwoJunctions"&Z5===""&addFault===false&impedanceType!=="Z"?setThreeJValues([+amplitude, numOfJ, Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), Math.sqrt(+L2/+C2), Math.sqrt(+L4/+C4), +len1/2, +len1/2, +v1, +v1]):
+        
+        numOfJ==="TwoJunctions"&Z5===""&addFault===true&impedanceType==="Z"?setThreeJValues([+amplitude, "ThreeJunctions", +Z1, +Z2, 0, +Z4, +faultLength, +len1 - (+faultLength), +v1, +v1]):
+        numOfJ==="TwoJunctions"&Z5===""&addFault===true&impedanceType!=="Z"?setThreeJValues([+amplitude, "ThreeJunctions", Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), 0, Math.sqrt(+L4/+C4), +faultLength, +len1 - (+faultLength), +v1, +v1]):
+        numOfJ==="TwoJunctions"&Z5!==""&addFault===false&impedanceType==="Z"?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, [+Z4, +Z5], +len1/2, +len1/2, +v1, +v1]):
+        numOfJ==="TwoJunctions"&Z5!==""&addFault===false&impedanceType!=="Z"?setThreeJValues([+amplitude, numOfJ, Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), Math.sqrt(+L3/+C3), [Math.sqrt(+L4/+C4), Math.sqrt(+L5/+C5)], +len1/2, +len1/2, +v1, +v1]):
+        numOfJ==="TwoJunctions"&Z5!==""&addFault===true&impedanceType==="Z"?setThreeJValues([+amplitude, "ThreeJunctions", +Z1, +Z2, 0, [+Z4, +Z5], +faultLength, +len1 - (+faultLength), +v1, +v1]):
+        numOfJ==="TwoJunctions"&Z5!==""&addFault===true&impedanceType!=="Z"?setThreeJValues([+amplitude, "ThreeJunctions", Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), 0, [Math.sqrt(+L4/+C4), Math.sqrt(+L5/+C5)], +faultLength, +len1 - (+faultLength), +v1, +v1]):
+        numOfJ==="ThreeJunctions"&Z5===""&impedanceType==="Z"?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, +Z4, +len1, +len2, +v1, +v2]):
+        numOfJ==="ThreeJunctions"&Z5===""&impedanceType!=="Z"?setThreeJValues([+amplitude, numOfJ, Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), Math.sqrt(+L3/+C3), Math.sqrt(+L4/+C4), +len1, +len2, +v1, +v2]):
+        numOfJ==="ThreeJunctions"&Z5!==""&impedanceType==="Z"?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, [+Z4, +Z5], +len1, +len2, +v1, +v2]):
+        numOfJ==="ThreeJunctions"&Z5!==""&impedanceType!=="Z"?setThreeJValues([+amplitude, numOfJ, Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), Math.sqrt(+L3/+C3), [Math.sqrt(+L4/+C4), Math.sqrt(+L5/+C5)], +len1, +len2, +v1, +v2]):setThreeJValues([0,0,0,0,0,0,0,0,0])
+    }
     const handleLineTypeRadio = (event) => {
         setLineType(event.target.value);
         setZ1("");
@@ -39,36 +55,53 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
         setZ3("");
         setZ4("");
         setZ5("");
-        setLen1("")
-        setV1("")
-        setLen2("")
-        setV2("")
+        setL1("");
+        setL2("");
+        setL3("");
+        setL4("");
+        setL5("");
+        setC1("");
+        setC2("");
+        setC3("");
+        setC4("");
+        setC5("");
+        setLen1("");
+        setV1("");
+        setLen2("");
+        setV2("");
         setAmplitude("");
         setZ4Inf(false);
         setAddFault(false)
         setFaultLength("")
+        // setImpedanceType("Z")
     };
-    // const handleImpedanceTypeRadio= (event) => {
-    //     setImpedanceType(event.target.value);
-    //     setZ1("");
-    //     setZ2("");
-    //     setZ3("");
-    //     setZ4("");
-    //     setZ5("");
-    //     setLen1("");
-    //     setV1("");
-    //     setAmplitude("");
-    //     setZ4Inf(false);
-    // }
-     function handleSubmit(event) {
-        event.preventDefault();
-        numOfJ==="TwoJunctions"&Z5===""&addFault===false?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z2, +Z4, +len1/2, +len1/2, +v1, +v1]):
-        numOfJ==="TwoJunctions"&Z5===""&addFault===true?setThreeJValues([+amplitude, "ThreeJunctions", +Z1, +Z2, 0, +Z4, +faultLength, +len1 - (+faultLength), +v1, +v1]):
-        numOfJ==="TwoJunctions"&Z5!==""&addFault===false?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, [+Z4, +Z5], +len1/2, +len1/2, +v1, +v1]):
-        numOfJ==="TwoJunctions"&Z5!==""&addFault===true?setThreeJValues([+amplitude, "ThreeJunctions", +Z1, +Z2, 0, [+Z4, +Z5], +faultLength, +len1 - (+faultLength), +v1, +v1]):
-        numOfJ==="ThreeJunctions"&Z5===""?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, +Z4, +len1, +len2, +v1, +v2]):
-        numOfJ==="ThreeJunctions"&Z5!==""?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, [+Z4, +Z5], +len1, +len2, +v1, +v2]):setThreeJValues([0,0,0,0,0,0,0,0,0])
+    const handleImpedanceTypeRadio= (event) => {
+        setImpedanceType(event.target.value);
+        setZ1("");
+        setZ2("");
+        setZ3("");
+        setZ4("");
+        setZ5("");
+        setL1("");
+        setL2("");
+        setL3("");
+        setL4("");
+        setL5("");
+        setC1("");
+        setC2("");
+        setC3("");
+        setC4("");
+        setC5("");
+        setLen1("");
+        setV1("");
+        setLen2("");
+        setV2("");
+        setAmplitude("");
+        setZ4Inf(false);
+        setAddFault(false)
+        setFaultLength("")
     }
+  
     function handleExampleOne(event){
         event.preventDefault();
         setZ1(400)
@@ -84,6 +117,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
         setZ4Inf(true)
         setAddFault(false)
         setFaultLength("")
+        setImpedanceType("Z")
     }
     function handleExampleTwo(event){
         event.preventDefault();
@@ -100,8 +134,8 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
         setZ4Inf(true)
         setAddFault(false)
         setFaultLength("")
-    }
-    
+        setImpedanceType("Z")
+    }  
     function handleExampleThree(event){
         event.preventDefault();
         setZ1(0)
@@ -117,6 +151,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
         setZ4Inf(true)
         setAddFault(false)
         setFaultLength("")
+        setImpedanceType("Z")
     }
     function handleExampleFour(event){
         event.preventDefault();
@@ -133,6 +168,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
         setZ4Inf(true)
         setAddFault(false)
         setFaultLength("")
+        setImpedanceType("Z")
     }
     
     function handleReset(event){
@@ -142,6 +178,16 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
         setZ3("");
         setZ4("");
         setZ5("");
+        setL1("");
+        setL2("");
+        setL3("");
+        setL4("");
+        setL5("");
+        setC1("");
+        setC2("");
+        setC3("");
+        setC4("");
+        setC5("");
         setLen1("");
         setV1("");
         setLen2("");
@@ -150,6 +196,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
         setZ4Inf(false);
         setAddFault(false)
         setFaultLength("")
+        setImpedanceType("Z")
     }
     const handleChangeJ = (event, currentNumOfJ) => {
         setNumOfJ(currentNumOfJ);
@@ -159,6 +206,16 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
         setZ3("");
         setZ4("");
         setZ5("");
+        setL1("");
+        setL2("");
+        setL3("");
+        setL4("");
+        setL5("");
+        setC1("");
+        setC2("");
+        setC3("");
+        setC4("");
+        setC5("");
         setLen1("");
         setV1("");
         setLen2("");
@@ -168,7 +225,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
         setAddFault(false)
         setFaultLength("")
         setThreeJValues([0,0,0,0,0,0,0,0,0])
-        console.log(currentNumOfJ);
+        // console.log(currentNumOfJ);
       };
     return (
         <Wrapper>
@@ -197,7 +254,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
                     <FormControlLabel value="TJunction" control={<Radio />} label="T junction" />
                     </RadioGroup>
                 </Stack>
-                {/* <Stack>
+                <Stack>
                     <RadioGroup
                     name="controlled-radio-buttons-group-two"
                     value={impedanceType}
@@ -206,79 +263,222 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
                     <FormControlLabel value="Z" control={<Radio />} label="Z" />
                     <FormControlLabel value="L&C" control={<Radio />} label="L&C" />
                     </RadioGroup>
-                </Stack> */}
+                </Stack>
                 { 
-                    <Stack spacing={2} direction="row" sx={{marginBottom: 4}}>
-                        <TextField
-                            type="number"
-                            variant='outlined'
-                            color='secondary'
-                            label="Z1 (&#8486;)"
-                            onChange={e => setZ1(e.target.value)}
-                            value={Z1}
-                            fullWidth
-                            required
-                        />
-                        <TextField
-                            type="number"
-                            variant='outlined'
-                            color='secondary'
-                            label="Z2 (&#8486;)"
-                            onChange={e => setZ2(e.target.value)}
-                            value={Z2}
-                            fullWidth
-                            required
-                        />
-                        {
-                            numOfJ==="ThreeJunctions"?<TextField
-                            type="number"
-                            variant='outlined'
-                            color='secondary'
-                            label="Z3 (&#8486;)"
-                            onChange={e => setZ3(e.target.value)}
-                            value={`${Z3}`}
-                            fullWidth
-                            required
-                        />:
-                        <TextField
-                            style={{display:"none"}}
-                            type="number"
-                            variant='outlined'
-                            color='secondary'
-                            label="Z3===Z2 (&#8486;)"
-                            value={`${Z2}`}
-                            fullWidth
-                            required
-                        />
-                        }
-                        <TextField
-                            type={Z4Inf?"text":"number"}
-                            variant='outlined'
-                            color='secondary'
-                            label={`${numOfJ==="ThreeJunctions"?"Z4 (\u03A9)":"Z3 (\u03A9)"}`}
-                            onChange={e => Z4Inf?setZ4(Infinity):setZ4(e.target.value)}
-                            value={`${Z4}`}
-                            fullWidth
-                            required
-                        />
-                        <FormControlLabel control={<Checkbox checked={Z4Inf} onChange={e => {
-                            setZ4Inf(!Z4Inf);
-                            setZ4(Infinity);
-                            return 0
-                        }} />} label={`${numOfJ==="ThreeJunctions"?"Z4 Inf":"Z3 Inf"}`} />
-                        {
-                            lineType==="TJunction"&&<TextField
-                            type="number"
-                            variant='outlined'
-                            color='secondary'
-                            label={`${numOfJ==="ThreeJunctions"?"Z5 (\u03A9)":"Z4 (\u03A9)"}`}
-                            onChange={e => setZ5(e.target.value)}
-                            value={`${Z5}`}
-                            fullWidth
-                            required
-                        />
-                        }
-                    </Stack>
+                    impedanceType==="Z" ?
+                        <Stack spacing={2} direction="row" sx={{marginBottom: 4}}>
+                            <TextField
+                                type="number"
+                                variant='outlined'
+                                color='secondary'
+                                label="Z1 (&#8486;)"
+                                onChange={e => setZ1(e.target.value)}
+                                value={Z1}
+                                fullWidth
+                                required
+                            />
+                            <TextField
+                                type="number"
+                                variant='outlined'
+                                color='secondary'
+                                label="Z2 (&#8486;)"
+                                onChange={e => setZ2(e.target.value)}
+                                value={Z2}
+                                fullWidth
+                                required
+                            />
+                            {
+                                numOfJ==="ThreeJunctions"?<TextField
+                                type="number"
+                                variant='outlined'
+                                color='secondary'
+                                label="Z3 (&#8486;)"
+                                onChange={e => setZ3(e.target.value)}
+                                value={`${Z3}`}
+                                fullWidth
+                                required
+                            />:
+                            <TextField
+                                style={{display:"none"}}
+                                type="number"
+                                variant='outlined'
+                                color='secondary'
+                                label="Z3===Z2 (&#8486;)"
+                                value={Z2}
+                                fullWidth
+                                required
+                            />
+                            }
+                            <TextField
+                                type={Z4Inf?"text":"number"}
+                                variant='outlined'
+                                color='secondary'
+                                label={`${numOfJ==="ThreeJunctions"?"Z4 (\u03A9)":"Z3 (\u03A9)"}`}
+                                onChange={e => Z4Inf?setZ4(Infinity):setZ4(e.target.value)}
+                                value={`${Z4}`}
+                                fullWidth
+                                required
+                            />
+                            <FormControlLabel control={<Checkbox checked={Z4Inf} onChange={e => {
+                                setZ4Inf(!Z4Inf);
+                                setZ4(Infinity);
+                                return 0
+                            }} />} label={`${numOfJ==="ThreeJunctions"?"Z4 Inf":"Z3 Inf"}`} />
+                            {
+                                lineType==="TJunction"&&<TextField
+                                type="number"
+                                variant='outlined'
+                                color='secondary'
+                                label={`${numOfJ==="ThreeJunctions"?"Z5 (\u03A9)":"Z4 (\u03A9)"}`}
+                                onChange={e => setZ5(e.target.value)}
+                                value={`${Z5}`}
+                                fullWidth
+                                required
+                            />
+                            }
+                        </Stack>:
+                        <Stack spacing={2} direction="row" sx={{marginBottom: 4}}>
+                            <Stack spacing={2} direction="column" sx={{marginBottom: 0}}>
+                                <TextField
+                                    type="number"
+                                    variant='outlined'
+                                    color='secondary'
+                                    label="L1 (H)"
+                                    onChange={e => setL1(e.target.value)}
+                                    value={L1}
+                                    fullWidth
+                                    required
+                                />
+                                <TextField
+                                    type="number"
+                                    variant='outlined'
+                                    color='secondary'
+                                    label="C1 (F)"
+                                    onChange={e => setC1(e.target.value)}
+                                    value={C1}
+                                    fullWidth
+                                    required
+                                />
+                            </Stack>
+                            <Stack spacing={2} direction="column" sx={{marginBottom: 0}}>
+                                <TextField
+                                    type="number"
+                                    variant='outlined'
+                                    color='secondary'
+                                    label="L2 (H)"
+                                    onChange={e => setL2(e.target.value)}
+                                    value={L2}
+                                    fullWidth
+                                    required
+                                />
+                                <TextField
+                                    type="number"
+                                    variant='outlined'
+                                    color='secondary'
+                                    label="C2 (F)"
+                                    onChange={e => setC2(e.target.value)}
+                                    value={C2}
+                                    fullWidth
+                                    required
+                                />
+                            </Stack>
+                            {
+                                numOfJ==="ThreeJunctions"?
+                                <Stack spacing={2} direction="column" sx={{marginBottom: 0}}>
+                                    <TextField
+                                        type="number"
+                                        variant='outlined'
+                                        color='secondary'
+                                        label="L3 (H)"
+                                        onChange={e => setL3(e.target.value)}
+                                        value={L3}
+                                        fullWidth
+                                        required
+                                    />
+                                    <TextField
+                                        type="number"
+                                        variant='outlined'
+                                        color='secondary'
+                                        label="C3 (F)"
+                                        onChange={e => setC3(e.target.value)}
+                                        value={C3}
+                                        fullWidth
+                                        required
+                                    />
+                                </Stack>:
+                                <Stack spacing={2} direction="column" sx={{marginBottom: 0}}>
+                                    <TextField
+                                        style={{display:"none"}}
+                                        type="number"
+                                        variant='outlined'
+                                        color='secondary'
+                                        label="L3===L2 (H)"
+                                        // onChange={e => setL3(e.target.value)}
+                                        value={L2}
+                                        fullWidth
+                                        required
+                                    />
+                                    <TextField
+                                        style={{display:"none"}}
+                                        type="number"
+                                        variant='outlined'
+                                        color='secondary'
+                                        label="C3===C2 (F)"
+                                        // onChange={e => setC3(e.target.value)}
+                                        value={C2}
+                                        fullWidth
+                                        required
+                                    />
+                                </Stack>
+                            }
+                                <Stack spacing={2} direction="column" sx={{marginBottom: 0}}>
+                                    <TextField
+                                        type="number"
+                                        variant='outlined'
+                                        color='secondary'
+                                        label={`${numOfJ==="ThreeJunctions"?"L4 (F)":"L3 (F)"}`}
+                                        onChange={e => setL4(e.target.value)}
+                                        value={L4}
+                                        fullWidth
+                                        required
+                                    />
+                                    <TextField
+                                        type="number"
+                                        variant='outlined'
+                                        color='secondary'
+                                        label={`${numOfJ==="ThreeJunctions"?"C4 (F)":"C3 (F)"}`}
+                                        onChange={e => setC4(e.target.value)}
+                                        value={C4}
+                                        fullWidth
+                                        required
+                                    />
+                                </Stack>
+                            {
+                                lineType==="TJunction"&&
+                                <Stack spacing={2} direction="column" sx={{marginBottom: 0}}>
+                                    <TextField
+                                        type="number"
+                                        variant='outlined'
+                                        color='secondary'
+                                        label={`${numOfJ==="ThreeJunctions"?"L5 (H)":"L4 (H)"}`}
+                                        onChange={e => setL5(e.target.value)}
+                                        value={L5}
+                                        fullWidth
+                                        required
+                                    />
+                                    <TextField
+                                        type="number"
+                                        variant='outlined'
+                                        color='secondary'
+                                        label={`${numOfJ==="ThreeJunctions"?"C5 (F)":"C4 (F)"}`}
+                                        onChange={e => setC5(e.target.value)}
+                                        value={C5}
+                                        fullWidth
+                                        required
+                                    />
+                                </Stack>
+                            }
+                        </Stack>
                 }
                 <TextField
                     type="number"
@@ -391,7 +591,8 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
                 <Stack spacing={2} direction="row" sx={{marginBottom: 2}} justifyContent={"space-between"}>
                         <Button variant="outlined" color="secondary" type="submit">Draw</Button>
                         {
-                            lineType==="series"&numOfJ==="TwoJunctions"?
+                            impedanceType==="Z"&&
+                            (lineType==="series"&numOfJ==="TwoJunctions"?
                             <Button variant="outlined" color="secondary" onClick={handleExampleOne}>Example 1</Button>:
                             lineType==="TJunction"&numOfJ==="TwoJunctions"?
                             <Button variant="outlined" color="secondary" onClick={handleExampleTwo}>Example 2</Button>:
@@ -399,7 +600,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
                             <Button variant="outlined" color="secondary" onClick={handleExampleThree}>Example 3</Button>:
                             lineType==="TJunction"&numOfJ==="ThreeJunctions"?
                             <Button variant="outlined" color="secondary" onClick={handleExampleFour}>Example 4</Button>:
-                            null
+                            null)
                         }
                         {/* {
                             lineType==="series"&impedanceType==="Z"?
