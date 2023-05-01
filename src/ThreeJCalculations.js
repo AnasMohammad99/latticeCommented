@@ -130,17 +130,47 @@
                     //         newCurrent[i].push(current[i][j])
                     //     }
                     // }
-                    if(!newTime[i].includes(time[i][j].toFixed(5))){
-                            newTime[i].push(time[i][j].toFixed(5))
-                            newVoltage[i].push(voltage[i][j].toFixed(5))
-                            newCurrent[i].push(current[i][j].toFixed(5))
+                    if(!newTime[i].includes(+time[i][j].toFixed(5))){
+                            newTime[i].push(+time[i][j].toFixed(5))
+                            newVoltage[i].push(+voltage[i][j].toFixed(5))
+                            newCurrent[i].push(+current[i][j].toFixed(5))
                     }
                 }
             }
+            // let newTime2 = newTime.map((junctionTime)=>junctionTime.sort((a, b) => a - b))
+            //arrange volt and current array based on time array
+            let temp;
+            
+            function converter(arrV,arrC,arrT) {
+
+                for(let i=0; i<arrT.length; i++) {
+              
+                  for (let j=i+1; j<arrT.length; j++) {
+              
+                    if(arrT[i] > arrT[j]) {
+              
+                      temp = arrT[i]
+                      arrT[i] = arrT[j]
+                      arrT[j] = temp
+                      temp = arrV[i]
+                      arrV[i] = arrV[j]
+                      arrV[j] = temp
+                      temp = arrC[i]
+                      arrC[i] = arrC[j]
+                      arrC[j] = temp
+                    }
+                  }
+                }
+                return [arrV, arrV, arrT]
+              }
+            newTime.map((arr, index)=>converter(newVoltage[index], newCurrent[index], arr))
+            // console.log(newTime2);
             console.log(amplitude, numOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2);
             return[newVoltage, newCurrent, newTime]
+            // return[newVoltage2, newCurrent2, newTime2]
 
     }
+    
 // console.log(AllCalculations(50, "ThreeJunctions", 500, 100, 250,[Infinity, 300], 300, 500, 200, 250));
 
 export {
