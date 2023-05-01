@@ -3,7 +3,7 @@ import { TextField, Button, Stack, Checkbox, Radio, RadioGroup, FormControlLabel
 import styled from 'styled-components';
  
  
-const LatticeForm = ({setThreeJValues}) => {
+const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
     const [amplitude, setAmplitude] = useState("");
     const [Z1, setZ1] = useState("");
     const [Z2, setZ2] = useState("");
@@ -11,6 +11,16 @@ const LatticeForm = ({setThreeJValues}) => {
     const [Z4Inf, setZ4Inf] = useState(false);
     const [Z4, setZ4] = useState("");
     const [Z5, setZ5] = useState("");
+    // const [L1, setL1] = useState("");
+    // const [L2, setL2] = useState("");
+    // const [L3, setL3] = useState("");
+    // const [L4, setL4] = useState("");
+    // const [L5, setL5] = useState("");
+    // const [C1, setC1] = useState("");
+    // const [C2, setC2] = useState("");
+    // const [C3, setC3] = useState("");
+    // const [C4, setC4] = useState("");
+    // const [C5, setC5] = useState("");
     const [len1, setLen1] = useState("");
     const [len2, setLen2] = useState("");
     const [v1, setV1] = useState("");
@@ -18,7 +28,7 @@ const LatticeForm = ({setThreeJValues}) => {
     // const [NumOfJ,, setNumOfJ,] = useState("2J")
     const [lineType, setLineType] = useState("series");
     const [impedanceType, setImpedanceType] = useState("Z");
-    const [numOfJ, setNumOfJ] = useState('TwoJunctions');
+    // const [numOfJ, setNumOfJ] = useState('TwoJunctions');
     const [addFault, setAddFault] = useState(false)
     const [faultLength, setFaultLength] = useState("");
 
@@ -35,6 +45,8 @@ const LatticeForm = ({setThreeJValues}) => {
         setV2("")
         setAmplitude("");
         setZ4Inf(false);
+        setAddFault(false)
+        setFaultLength("")
     };
     // const handleImpedanceTypeRadio= (event) => {
     //     setImpedanceType(event.target.value);
@@ -70,6 +82,8 @@ const LatticeForm = ({setThreeJValues}) => {
         setV2(150)//we will send this value to calculations two times
         setAmplitude(100)
         setZ4Inf(true)
+        setAddFault(false)
+        setFaultLength("")
     }
     function handleExampleTwo(event){
         event.preventDefault();
@@ -84,6 +98,8 @@ const LatticeForm = ({setThreeJValues}) => {
         setV2(250)//we will send this value to calculations two times
         setAmplitude(50)
         setZ4Inf(true)
+        setAddFault(false)
+        setFaultLength("")
     }
     
     function handleExampleThree(event){
@@ -99,6 +115,8 @@ const LatticeForm = ({setThreeJValues}) => {
         setV2(150)
         setAmplitude(.5)
         setZ4Inf(true)
+        setAddFault(false)
+        setFaultLength("")
     }
     function handleExampleFour(event){
         event.preventDefault();
@@ -113,6 +131,8 @@ const LatticeForm = ({setThreeJValues}) => {
         setV2(250)
         setAmplitude(50)
         setZ4Inf(true)
+        setAddFault(false)
+        setFaultLength("")
     }
     
     function handleReset(event){
@@ -127,9 +147,9 @@ const LatticeForm = ({setThreeJValues}) => {
         setLen2("");
         setV2("");
         setAmplitude("");
+        setZ4Inf(false);
         setAddFault(false)
         setFaultLength("")
-        setZ4Inf(false);
     }
     const handleChangeJ = (event, currentNumOfJ) => {
         setNumOfJ(currentNumOfJ);
@@ -145,6 +165,8 @@ const LatticeForm = ({setThreeJValues}) => {
         setV2("");
         setAmplitude("");
         setZ4Inf(false);
+        setAddFault(false)
+        setFaultLength("")
         setThreeJValues([0,0,0,0,0,0,0,0,0])
         console.log(currentNumOfJ);
       };

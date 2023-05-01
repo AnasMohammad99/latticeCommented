@@ -130,10 +130,10 @@
                     //         newCurrent[i].push(current[i][j])
                     //     }
                     // }
-                    if(!newTime[i].includes(time[i][j])){
-                            newTime[i].push(time[i][j])
-                            newVoltage[i].push(voltage[i][j])
-                            newCurrent[i].push(current[i][j])
+                    if(!newTime[i].includes(time[i][j].toFixed(5))){
+                            newTime[i].push(time[i][j].toFixed(5))
+                            newVoltage[i].push(voltage[i][j].toFixed(5))
+                            newCurrent[i].push(current[i][j].toFixed(5))
                     }
                 }
             }

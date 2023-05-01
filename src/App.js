@@ -43,7 +43,7 @@ function App() {
         {
             // numOfJ === "TwoJunctions"? 
             // <Lattice2JChart twoJValues={twoJValues} />:
-            <Lattice3JChart threeJValues={threeJValues} />
+            <Lattice3JChart numOfJ={numOfJ} threeJValues={threeJValues} />
           }
         </BodyWrapper>
       </LayoutWrapper>
