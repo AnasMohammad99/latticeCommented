@@ -1,4 +1,5 @@
     function VoltageAndTimeCalculation(amplitude, numOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2) {
+        console.log(amplitude, numOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2);
         let Vi = amplitude*1000;
         let values = [Z1,Z2,Z3,Z4];
         let t1 = len1/v1;
@@ -137,7 +138,6 @@
                     }
                 }
             }
-            console.log(newVoltage, newTime);
             return[newVoltage, newCurrent, newTime]
 
     }

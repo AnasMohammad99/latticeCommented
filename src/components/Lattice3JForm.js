@@ -34,19 +34,19 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
 
     function handleSubmit(event) {
         event.preventDefault();
+        console.log([numOfJ,Z5,L5,C5,addFault,impedanceType]);
         numOfJ==="TwoJunctions"&Z5===""&addFault===false&impedanceType==="Z"?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z2, +Z4, +len1/2, +len1/2, +v1, +v1]):
-        numOfJ==="TwoJunctions"&Z5===""&addFault===false&impedanceType!=="Z"?setThreeJValues([+amplitude, numOfJ, Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), Math.sqrt(+L2/+C2), Math.sqrt(+L4/+C4), +len1/2, +len1/2, +v1, +v1]):
-        
+        numOfJ==="TwoJunctions"&L5===""&C5===""&addFault===false&impedanceType!=="Z"?setThreeJValues([+amplitude, numOfJ, Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), Math.sqrt(+L2/+C2), Math.sqrt(+L4/+C4), +len1/2, +len1/2, +v1, +v1]):
         numOfJ==="TwoJunctions"&Z5===""&addFault===true&impedanceType==="Z"?setThreeJValues([+amplitude, "ThreeJunctions", +Z1, +Z2, 0, +Z4, +faultLength, +len1 - (+faultLength), +v1, +v1]):
-        numOfJ==="TwoJunctions"&Z5===""&addFault===true&impedanceType!=="Z"?setThreeJValues([+amplitude, "ThreeJunctions", Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), 0, Math.sqrt(+L4/+C4), +faultLength, +len1 - (+faultLength), +v1, +v1]):
-        numOfJ==="TwoJunctions"&Z5!==""&addFault===false&impedanceType==="Z"?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, [+Z4, +Z5], +len1/2, +len1/2, +v1, +v1]):
-        numOfJ==="TwoJunctions"&Z5!==""&addFault===false&impedanceType!=="Z"?setThreeJValues([+amplitude, numOfJ, Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), Math.sqrt(+L3/+C3), [Math.sqrt(+L4/+C4), Math.sqrt(+L5/+C5)], +len1/2, +len1/2, +v1, +v1]):
+        numOfJ==="TwoJunctions"&L5===""&C5===""&addFault===true&impedanceType!=="Z"?setThreeJValues([+amplitude, "ThreeJunctions", Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), 0, Math.sqrt(+L4/+C4), +faultLength, +len1 - (+faultLength), +v1, +v1]):
+        numOfJ==="TwoJunctions"&Z5!==""&addFault===false&impedanceType==="Z"?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z2, [+Z4, +Z5], +len1/2, +len1/2, +v1, +v1]):
+        numOfJ==="TwoJunctions"&L5!==""&C5!==""&addFault===false&impedanceType!=="Z"?setThreeJValues([+amplitude, numOfJ, Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), Math.sqrt(+L2/+C2), [Math.sqrt(+L4/+C4), Math.sqrt(+L5/+C5)], +len1/2, +len1/2, +v1, +v1]):
         numOfJ==="TwoJunctions"&Z5!==""&addFault===true&impedanceType==="Z"?setThreeJValues([+amplitude, "ThreeJunctions", +Z1, +Z2, 0, [+Z4, +Z5], +faultLength, +len1 - (+faultLength), +v1, +v1]):
-        numOfJ==="TwoJunctions"&Z5!==""&addFault===true&impedanceType!=="Z"?setThreeJValues([+amplitude, "ThreeJunctions", Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), 0, [Math.sqrt(+L4/+C4), Math.sqrt(+L5/+C5)], +faultLength, +len1 - (+faultLength), +v1, +v1]):
+        numOfJ==="TwoJunctions"&L5!==""&C5!==""&addFault===true&impedanceType!=="Z"?setThreeJValues([+amplitude, "ThreeJunctions", Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), 0, [Math.sqrt(+L4/+C4), Math.sqrt(+L5/+C5)], +faultLength, +len1 - (+faultLength), +v1, +v1]):
         numOfJ==="ThreeJunctions"&Z5===""&impedanceType==="Z"?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, +Z4, +len1, +len2, +v1, +v2]):
-        numOfJ==="ThreeJunctions"&Z5===""&impedanceType!=="Z"?setThreeJValues([+amplitude, numOfJ, Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), Math.sqrt(+L3/+C3), Math.sqrt(+L4/+C4), +len1, +len2, +v1, +v2]):
+        numOfJ==="ThreeJunctions"&L5===""&C5===""&impedanceType!=="Z"?setThreeJValues([+amplitude, numOfJ, Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), Math.sqrt(+L3/+C3), Math.sqrt(+L4/+C4), +len1, +len2, +v1, +v2]):
         numOfJ==="ThreeJunctions"&Z5!==""&impedanceType==="Z"?setThreeJValues([+amplitude, numOfJ, +Z1, +Z2, +Z3, [+Z4, +Z5], +len1, +len2, +v1, +v2]):
-        numOfJ==="ThreeJunctions"&Z5!==""&impedanceType!=="Z"?setThreeJValues([+amplitude, numOfJ, Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), Math.sqrt(+L3/+C3), [Math.sqrt(+L4/+C4), Math.sqrt(+L5/+C5)], +len1, +len2, +v1, +v2]):setThreeJValues([0,0,0,0,0,0,0,0,0])
+        numOfJ==="ThreeJunctions"&L5!==""&C5!==""&impedanceType!=="Z"?setThreeJValues([+amplitude, numOfJ, Math.sqrt(+L1/+C1), Math.sqrt(+L2/+C2), Math.sqrt(+L3/+C3), [Math.sqrt(+L4/+C4), Math.sqrt(+L5/+C5)], +len1, +len2, +v1, +v2]):setThreeJValues([0,0,0,0,0,0,0,0,0])
     }
     const handleLineTypeRadio = (event) => {
         setLineType(event.target.value);
@@ -331,7 +331,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
                                 color='secondary'
                                 label={`${numOfJ==="ThreeJunctions"?"Z5 (\u03A9)":"Z4 (\u03A9)"}`}
                                 onChange={e => setZ5(e.target.value)}
-                                value={`${Z5}`}
+                                value={Z5}
                                 fullWidth
                                 required
                             />
@@ -496,7 +496,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
                         type="number"
                         variant='outlined'
                         color='secondary'
-                        label="line 1 length (m)"
+                        label={numOfJ==="ThreeJunctions"?"line 1 length (m)":"line length (m)"}
                         onChange={e => setLen1(e.target.value)}
                         value={len1}
                         fullWidth
@@ -534,7 +534,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
                         type="number"
                         variant='outlined'
                         color='secondary'
-                        label="line 1 velocity (m/&micro;s)"
+                        label={numOfJ==="ThreeJunctions"?"line 1 velocity (m/\xB5s)":"line velocity (m/\xB5s)"}
                         onChange={e => setV1(e.target.value)}
                         value={v1}
                         fullWidth

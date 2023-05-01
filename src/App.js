@@ -8,7 +8,7 @@ import { useState } from "react";
 
 function App() {
   // const [twoJValues, setTwoJValues] = useState([0,0,0,0,0,0])
-  const [threeJValues, setThreeJValues] = useState([0,0,0,0,0,0,0,0,0])
+  const [threeJValues, setThreeJValues] = useState([0,0,0,0,0,0,0,0,0,0])
   const [numOfJ, setNumOfJ] = useState('TwoJunctions');
 
   // const handleChangeJ = (event, currentNumOfJ) => {
