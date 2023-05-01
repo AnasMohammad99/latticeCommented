@@ -3,13 +3,13 @@ import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import styled from "styled-components";
-import { VoltageAndTimeCalculation } from "../ThreeJCalculations";
+import { AllCalculations } from "../ThreeJCalculations";
 
 Chart.register(CategoryScale);
 const LatticeChart = ({threeJValues}) => {
   // console.log(threeJValues);
   let [amplitude, NumOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2] = threeJValues
-  let [voltageArr, currentArr, timeArr] = VoltageAndTimeCalculation(amplitude, NumOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2);
+  let [voltageArr, currentArr, timeArr] = AllCalculations(amplitude, NumOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2);
   const data1 = {
     labels: timeArr[0],
     datasets: [

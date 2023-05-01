@@ -1,5 +1,4 @@
-    function VoltageAndTimeCalculation(amplitude, numOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2) {
-        console.log(amplitude, numOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2);
+    function AllCalculations(amplitude, numOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2) {
         let Vi = amplitude*1000;
         let values = [Z1,Z2,Z3,Z4];
         let t1 = len1/v1;
@@ -138,11 +137,12 @@
                     }
                 }
             }
+            console.log(amplitude, numOfJ, Z1, Z2, Z3, Z4, len1, len2, v1, v2);
             return[newVoltage, newCurrent, newTime]
 
     }
-// console.log(VoltageAndTimeCalculation(50, "ThreeJunctions", 500, 100, 250,[Infinity, 300], 300, 500, 200, 250));
+// console.log(AllCalculations(50, "ThreeJunctions", 500, 100, 250,[Infinity, 300], 300, 500, 200, 250));
 
 export {
-    VoltageAndTimeCalculation
+    AllCalculations
 }
