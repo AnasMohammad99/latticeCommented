@@ -138,7 +138,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
     }  
     function handleExampleThree(event){
         event.preventDefault();
-        setZ1(0.00000000000001)
+        setZ1(1e-15)
         setZ2(400)
         setZ3(40)
         setZ4(Infinity)
