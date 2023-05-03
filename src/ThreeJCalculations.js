@@ -1,5 +1,5 @@
 function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0) {
-    // console.log(amplitude, numOfJ, Z, length, velocity)
+    console.log(amplitude, numOfJ, Z, length, velocity, twoj)
     let Vi = amplitude*1000;
     let Ii = Vi/Z[0]
     let T = []
@@ -43,11 +43,16 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
         voltage[m].push(voltageR[m][0])
         let i = 1
         while (i<=1000) {
+            let w = numOfJ-m-1
             time[m].push(time[m][i-1]+2*T[m-1]);
 
             voltageL[m].push((voltageL[m][i-1])*rhoR[m-1]*rhoF[m]);
             voltageR[m].push((voltageL[m][i-1])*rhoR[m-1]*tauF[m]);
+            // voltage[1].push((voltage[1][2*i-2])+voltageL[1][2*i-1])
             voltage[m].push((voltage[m][voltage[m].length-1])+voltageR[m][voltageR[m].length-1]);
+            if(time[1][(w+1)*(i-1)]===time[1][w*(i-1)+i]){
+                voltage[1][w*(i-1)+i]=voltage[1][(w+1)*(i-1)]
+            }
             let Tadd = T[m]
             let TauMultiply = 1
             let j = 1
@@ -60,6 +65,9 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
                 voltageL[m].push(voltageR[m][i-1]*tauR[m]*rhoF[m+j]*TauMultiply)
                 voltageR[m].push(voltageR[m][i-1]*rhoR[m]*rhoF[m+j]*TauMultiply)
                 voltage[m].push((voltage[m][voltage[m].length-1])+voltageL[m][voltageL[m].length-1])
+                if(time[1][w*(i-1)+i]===time[1][w*(i-1)+i+j]){
+                    voltage[1][w*(i-1)+i+j]=voltage[1][w*(i-1)+i];
+                }
                 j++
             }
             i++
@@ -78,8 +86,8 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     while(i<=1000){
         if(twoj===1){
             j = i+1;
-            t01 = -T[0]
-            t02 = -T[numOfJ-2]
+            t01 = -1*T[0]
+            t02 = -1*T[1]
         } else {
             j=i;
         }
@@ -167,7 +175,6 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
         }
         //arrange volt and current array based on time array
         let temp;
-        
         function converter(arrV,arrC,arrT) {
 
             for(let i=0; i<arrT.length; i++) {
@@ -191,10 +198,10 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
             return [arrV, arrV, arrT]
           }
         newTime.map((arr, index)=>converter(newVoltage[index], newCurrent[index], arr))
-        return [newVoltage, newCurrent, newTime]
+        return [voltage[1], time[1]]
 }
-// console.log(AllCalculations(.5, 3, [1e-15, 400, 40, Infinity], [450,300], [300,150]));
+console.log(AllCalculations(.5, 3, [1e-15, 400, 40, Infinity], [450,300], [300,150]));
 
-export {
-AllCalculations
-}
+// export {
+// AllCalculations
+// }

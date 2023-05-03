@@ -8,9 +8,9 @@ import { AllCalculations } from "../ThreeJCalculations";
 Chart.register(CategoryScale);
 const LatticeChart = ({threeJValues}) => {
   console.log(threeJValues);
-  let [amplitude, NumOfJ, Z=[], length=[], velocity=[]] = threeJValues
-  let [voltageArr=[], currentArr=[], timeArr=[]] = AllCalculations(amplitude,NumOfJ,Z,length,velocity);
-  console.log(voltageArr);
+  let [amplitude, NumOfJ, Z=[], length=[], velocity=[], twoj] = threeJValues
+  let [voltageArr=[], currentArr=[], timeArr=[]] = AllCalculations(amplitude,NumOfJ,Z,length,velocity, twoj);
+  // console.log(voltageArr);
 
   // const data1 = {
   //   labels: timeArr[0],

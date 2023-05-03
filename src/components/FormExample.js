@@ -5,11 +5,15 @@ import styled from 'styled-components';
 function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSended, setNumOfJunctions, numOfJunctions}) {
     
     const IMPEDANCE_LIST = Array.from({ length:  (+numOfJunctionsSended+1)}, () => "")
+    const IMPEDANCE_T_LIST = Array.from({ length:  (+numOfJunctionsSended+2)}, () => "")
     const LENGTH_VELOCITY_LIST = Array.from({ length:  (+numOfJunctionsSended-1)}, () => "")
     const [amplitude, setAmplitude] = useState("");
     const [impedance, setImpedance] = useState([...IMPEDANCE_LIST]);
     const [inductance, setInductance] = useState([...IMPEDANCE_LIST])
     const [capacitance, setCapacitance] = useState([...IMPEDANCE_LIST])
+    const [impedanceT, setImpedanceT] = useState([...IMPEDANCE_T_LIST]);
+    const [inductanceT, setInductanceT] = useState([...IMPEDANCE_T_LIST])
+    const [capacitanceT, setCapacitanceT] = useState([...IMPEDANCE_T_LIST])
     const [length, setLength] = useState([...LENGTH_VELOCITY_LIST])
     const [velocity, setVelocity] = useState([...LENGTH_VELOCITY_LIST])
     const [impedanceType, setImpedanceType] = useState("Z");
@@ -41,6 +45,33 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
             ]
         })
     }
+    const changeOneImpedanceT = (index, newValue) => {
+        setImpedanceT(existingItems=>{
+            return[
+                ...existingItems.slice(0,index),
+                newValue===""?newValue:+newValue,
+                ...existingItems.slice(index + 1),
+            ]
+        })
+    }
+    const changeOneInductanceT = (index, newValue) => {
+        setInductanceT(existingItems=>{
+            return[
+                ...existingItems.slice(0,index),
+                newValue===""?newValue:+newValue,
+                ...existingItems.slice(index + 1),
+            ]
+        })
+    }
+    const changeOneCapacitanceT = (index, newValue) => {
+        setCapacitanceT(existingItems=>{
+            return[
+                ...existingItems.slice(0,index),
+                newValue===""?newValue:+newValue,
+                ...existingItems.slice(index + 1),
+            ]
+        })
+    }
     const changeOneLength = (index, newValue) => {
         setLength(existingItems=>{
             return[
@@ -61,14 +92,62 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
     }
     function handleSubmit(event) {
         event.preventDefault();
+        // let LCImp = []
+        let twoJLCImp = []
+        let twoJImpedance = []
+        let twoJV = []
+        let twoJL = []
+        let newZT = []
+        // let LCImpT = [[]]
+        if(lineType==="TJunction"&impedanceType==="Z"){
+            for (let i = 0; i < impedanceT.length; i++) {
+                if(i==impedanceT.length-2){
+                  newZT.push([+impedanceT[i],+impedanceT[i+1]])
+                  break;
+                }newZT.push(+impedanceT[i])
+              }
+              console.log("TJZ",newZT);
+        }
+        if(lineType!=="TJunction"&impedanceType!=="Z"){
+            for (let i = 0; i < inductance.length; i++) {
+                newZT.push(Math.sqrt(+inductance[i]/+capacitance[i]))
+            }
 
-        let LCImp = []
-        for (let i = 0; i < inductance.length; i++) {
-            LCImp.push(Math.sqrt(+inductance[i]/+capacitance[i]))   
-        } 
-        impedanceType==="Z"&+numOfJunctions!==2?setThreeJValues([+amplitude, +numOfJunctions, impedance, length, velocity]):
-        impedanceType!=="Z"&+numOfJunctions!==2?setThreeJValues([+amplitude, +numOfJunctions, LCImp, length, velocity]):
-        impedanceType==="Z"&+numOfJunctions===2?setThreeJValues([+amplitude, 3, LCImp, length, velocity,1]):setThreeJValues([+amplitude, 3, LCImp, length, velocity, 1])
+        }else if(lineType==="TJunction"&impedanceType!=="Z"){
+            for (let i = 0; i < inductanceT.length; i++) {
+                if(i==inductanceT.length-2){
+                  newZT.push([Math.sqrt(+inductanceT[i]/+capacitanceT[i]),Math.sqrt(+inductanceT[i+1]/+capacitanceT[i+1])])
+                  break;
+                }newZT.push(Math.sqrt(+inductanceT[i]/+capacitanceT[i]))
+              }
+        }
+        if(+numOfJunctions===2){
+            twoJL.push(length[0]/2)
+            twoJL.push(length[0]/2)
+            twoJV.push(velocity[0])
+            twoJV.push(velocity[0])
+        }
+        if(impedanceType==="Z"&+numOfJunctions===2){
+            for (let i = 0; i < impedance.length; i++) {
+                if(i===1)twoJImpedance.push(+impedance[i])
+                twoJImpedance.push(+impedance[i])
+                } 
+            }else if(impedanceType!=="Z"&+numOfJunctions===2){
+                for (let i = 0; i < inductance.length; i++) {
+                    if(i===1) twoJLCImp.push(Math.sqrt(+inductance[i]/+capacitance[i]))
+                    twoJLCImp.push(Math.sqrt(+inductance[i]/+capacitance[i]))
+                    }
+            }
+        
+
+        impedanceType==="Z"&+numOfJunctions!==2&lineType==="series"?setThreeJValues([+amplitude, +numOfJunctions, impedance, length, velocity,0]):
+        impedanceType!=="Z"&+numOfJunctions!==2&lineType==="series"?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity]):
+        impedanceType==="Z"&+numOfJunctions===2&lineType==="series"?setThreeJValues([+amplitude, 3, twoJImpedance, twoJL, twoJL, 1]):
+        impedanceType!=="Z"&+numOfJunctions===2&lineType==="series"?setThreeJValues([+amplitude, 3, twoJLCImp, twoJL, twoJL, 1]):
+        impedanceType==="Z"&+numOfJunctions!==2&lineType==="TJunction"?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity]):
+        impedanceType!=="Z"&+numOfJunctions!==2&lineType==="TJunction"?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity]):
+        impedanceType==="Z"&+numOfJunctions===2&lineType==="TJunction"?setThreeJValues([+amplitude, 3, twoJImpedance, twoJL, twoJL, 1]):
+        impedanceType!=="Z"&+numOfJunctions===2&lineType==="TJunction"?setThreeJValues([+amplitude, 3, twoJLCImp, twoJL, twoJL, 1]):setThreeJValues([0,0,[0],[0],[0],0])
     }
     function handleReset(event){
         event.preventDefault();
@@ -121,7 +200,7 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
         </Stack>
         <Stack style={{overflowX:"scroll"}} spacing={2} direction="row" sx={{marginBottom: 2}}>
             {
-                impedanceType==="Z"?
+                impedanceType==="Z"&lineType==="series"?
                 impedance.map((item, i)=>{
                     return(
                         <TextField
@@ -136,7 +215,9 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                         required
                         />
                     )
-                }):<Stack spacing={2} direction="column">
+                }):
+                impedanceType!=="Z"&lineType==="series"?
+                <Stack spacing={2} direction="column">
                 <Stack  spacing={2} direction="row">
                     {
                         inductance.map((item, i)=>{
@@ -175,6 +256,62 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                         })
                     }
                     </Stack>
+                </Stack>:
+                impedanceType==="Z"&lineType!=="series"?
+                impedanceT.map((item, i)=>{
+                    return(
+                        <TextField
+                        style={{minWidth:"10rem"}}
+                        key={i}
+                        type="number"
+                        variant='outlined'
+                        color='secondary'
+                        label={`Z${i+1} (\u2126)`}
+                        onChange={(e)=>changeOneImpedanceT(i, e.target.value)}
+                        value={item}                    
+                        required
+                        />
+                    )
+                }):
+                <Stack spacing={2} direction="column">
+                <Stack  spacing={2} direction="row">
+                    {
+                        inductanceT.map((item, i)=>{
+                            return(
+                                    <TextField
+                                    style={{minWidth:"10rem"}}
+                                    key={i}
+                                    type="number"
+                                    variant='outlined'
+                                    color='secondary'
+                                    label={`L${i+1} (H)`}
+                                    onChange={(e)=>changeOneInductanceT(i, e.target.value)}
+                                    value={item}                    
+                                    required
+                                    />
+                            )
+                        })
+                    }
+                    </Stack>
+                    <Stack spacing={2} direction="row">
+                    {
+                        capacitanceT.map((item, i)=>{
+                            return(
+                                    <TextField
+                                    style={{minWidth:"10rem"}}
+                                    key={i}
+                                    type="number"
+                                    variant='outlined'
+                                    color='secondary'
+                                    label={`C${i+1} (F)`}
+                                    onChange={(e)=>changeOneCapacitanceT(i, e.target.value)}
+                                    value={item}                    
+                                    required
+                                    />
+                            )
+                        })
+                    }
+                    </Stack>
                 </Stack>
             }
         </Stack>
@@ -202,7 +339,7 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                         type="number"
                         variant='outlined'
                         color='secondary'
-                        label={`L${i+1} (m)`}
+                        label={`Length ${i+1} (m)`}
                         onChange={(e)=>changeOneLength(i, e.target.value)}
                         value={item}                    
                         required
@@ -222,7 +359,7 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                         type="number"
                         variant='outlined'
                         color='secondary'
-                        label={`V${i+1} (m/\xB5s)`}
+                        label={`Velocity ${i+1} (m/\xB5s)`}
                         onChange={(e)=>changeOneVelocity(i, e.target.value)}
                         value={item}                    
                         required

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Lattice3JChart from './components/Lattice3JChart';
 import { useState } from "react";
 // import LatticeForm from "./components/LatticeForm";
-import { Button, Stack, TextField} from "@mui/material";
+import { Button, CircularProgress, Stack, TextField} from "@mui/material";
 // import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import FormExample from "./components/FormExample"
 
@@ -49,8 +49,8 @@ function App() {
         </SidebarWrapper>
         <BodyWrapper>
           {
-            threeJValues[0]>0 &&<Lattice3JChart threeJValues={threeJValues} />
-
+            threeJValues[0]>0?<Lattice3JChart threeJValues={threeJValues} />:
+            <CircularProgress />
           }
         </BodyWrapper>
       </LayoutWrapper>
