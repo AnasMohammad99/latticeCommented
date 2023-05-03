@@ -5,32 +5,26 @@ import styled from 'styled-components';
  
 const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
     const [amplitude, setAmplitude] = useState("");
-    const [numOfJunctions, setNumOfJunctions] = useState("");    
     const [Z1, setZ1] = useState("");
     const [Z2, setZ2] = useState("");
     const [Z3, setZ3] = useState("");
     const [Z4Inf, setZ4Inf] = useState(false);
     const [Z4, setZ4] = useState("");
     const [Z5, setZ5] = useState("");
-    const [impedance, setImpedance] = useState([])
     const [L1, setL1] = useState("");
     const [L2, setL2] = useState("");
     const [L3, setL3] = useState("");
     const [L4, setL4] = useState("");
     const [L5, setL5] = useState("");
-    const [inductance, setInductance] = useState([])
     const [C1, setC1] = useState("");
     const [C2, setC2] = useState("");
     const [C3, setC3] = useState("");
     const [C4, setC4] = useState("");
     const [C5, setC5] = useState("");
-    const [capacitance, setCapacitance] = useState([])
     const [len1, setLen1] = useState("");
     const [len2, setLen2] = useState("");
-    const [Length, setLength] = useState([])
     const [v1, setV1] = useState("");
     const [v2, setV2] = useState("");
-    const [Velocity, setVelocity] = useState([])
     // const [NumOfJ,, setNumOfJ,] = useState("2J")
     const [lineType, setLineType] = useState("series");
     const [impedanceType, setImpedanceType] = useState("Z");
@@ -38,10 +32,6 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
     const [addFault, setAddFault] = useState(false)
     const [faultLength, setFaultLength] = useState("");
 
-    function handleFormOfProblem(event, currentValue) {
-        setNumOfJunctions("")
-        console.log(currentValue);
-    }
     function handleSubmit(event) {
         event.preventDefault();
         console.log([numOfJ,Z5,L5,C5,addFault,impedanceType]);
@@ -112,74 +102,74 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
         setFaultLength("")
     }
   
-    // function handleExampleOne(event){
-    //     event.preventDefault();
-    //     setZ1(400)
-    //     setZ2(100)
-    //     setZ3(100)
-    //     setZ4(Infinity)
-    //     setZ5("")
-    //     setLen1(300)
-    //     setV1(150)
-    //     setLen2(300/2)//we will send this value to calculations two times
-    //     setV2(150)//we will send this value to calculations two times
-    //     setAmplitude(100)
-    //     setZ4Inf(true)
-    //     setAddFault(false)
-    //     setFaultLength("")
-    //     setImpedanceType("Z")
-    // }
-    // function handleExampleTwo(event){
-    //     event.preventDefault();
-    //     setZ1(500)
-    //     setZ2(100)
-    //     setZ3(100)
-    //     setZ4(Infinity)
-    //     setZ5(250)
-    //     setLen1(500)
-    //     setV1(250)
-    //     setLen2(500/2)//we will send this value to calculations two times
-    //     setV2(250)//we will send this value to calculations two times
-    //     setAmplitude(50)
-    //     setZ4Inf(true)
-    //     setAddFault(false)
-    //     setFaultLength("")
-    //     setImpedanceType("Z")
-    // }  
-    // function handleExampleThree(event){
-    //     event.preventDefault();
-    //     setZ1(1e-15)
-    //     setZ2(400)
-    //     setZ3(40)
-    //     setZ4(Infinity)
-    //     setZ5("")
-    //     setLen1(450)
-    //     setLen2(300)
-    //     setV1(300)
-    //     setV2(150)
-    //     setAmplitude(.5)
-    //     setZ4Inf(true)
-    //     setAddFault(false)
-    //     setFaultLength("")
-    //     setImpedanceType("Z")
-    // }
-    // function handleExampleFour(event){
-    //     event.preventDefault();
-    //     setZ1(500)
-    //     setZ2(100)
-    //     setZ3(250)
-    //     setZ4(Infinity)
-    //     setZ5(300)
-    //     setLen1(300)
-    //     setV1(200)
-    //     setLen2(500)
-    //     setV2(250)
-    //     setAmplitude(50)
-    //     setZ4Inf(true)
-    //     setAddFault(false)
-    //     setFaultLength("")
-    //     setImpedanceType("Z")
-    // }
+    function handleExampleOne(event){
+        event.preventDefault();
+        setZ1(400)
+        setZ2(100)
+        setZ3(100)
+        setZ4(Infinity)
+        setZ5("")
+        setLen1(300)
+        setV1(150)
+        setLen2(300/2)//we will send this value to calculations two times
+        setV2(150)//we will send this value to calculations two times
+        setAmplitude(100)
+        setZ4Inf(true)
+        setAddFault(false)
+        setFaultLength("")
+        setImpedanceType("Z")
+    }
+    function handleExampleTwo(event){
+        event.preventDefault();
+        setZ1(500)
+        setZ2(100)
+        setZ3(100)
+        setZ4(Infinity)
+        setZ5(250)
+        setLen1(500)
+        setV1(250)
+        setLen2(500/2)//we will send this value to calculations two times
+        setV2(250)//we will send this value to calculations two times
+        setAmplitude(50)
+        setZ4Inf(true)
+        setAddFault(false)
+        setFaultLength("")
+        setImpedanceType("Z")
+    }  
+    function handleExampleThree(event){
+        event.preventDefault();
+        setZ1(1e-15)
+        setZ2(400)
+        setZ3(40)
+        setZ4(Infinity)
+        setZ5("")
+        setLen1(450)
+        setLen2(300)
+        setV1(300)
+        setV2(150)
+        setAmplitude(.5)
+        setZ4Inf(true)
+        setAddFault(false)
+        setFaultLength("")
+        setImpedanceType("Z")
+    }
+    function handleExampleFour(event){
+        event.preventDefault();
+        setZ1(500)
+        setZ2(100)
+        setZ3(250)
+        setZ4(Infinity)
+        setZ5(300)
+        setLen1(300)
+        setV1(200)
+        setLen2(500)
+        setV2(250)
+        setAmplitude(50)
+        setZ4Inf(true)
+        setAddFault(false)
+        setFaultLength("")
+        setImpedanceType("Z")
+    }
     
     function handleReset(event){
         event.preventDefault();
@@ -235,41 +225,23 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
         setAddFault(false)
         setFaultLength("")
         setThreeJValues([0,0,0,0,0,0,0,0,0,0])
-    };
+      };
     return (
         <Wrapper>
-            <Stack spacing={2} direction="row" sx={{marginBottom: 2}} justifyContent={"space-between"}>
-            <TextField
-                type="number"
-                variant='outlined'
-                color='secondary'
-                label="Number of junctions"
-                onChange={e => setNumOfJunctions(e.target.value)}
-                value={numOfJunctions}
-                // fullWidth
-                required
-            />
-            <Button variant="outlined" color="secondary" onClick={handleFormOfProblem}>Create</Button>
-            </Stack>    
             <ToggleButtonGroup
             color="primary"
             value={numOfJ}
             exclusive
             onChange={handleChangeJ}
             >
-                {
-                    Array(numOfJunctions).join().split(",").map((j,index)=>{
-                        console.log(index)
-                        return <ToggleButton value={`${index}-indexunctjon`}>${index} Junctions</ToggleButton>
-                    })
-                }
-                {/* <ToggleButton value="ThreeJunctions">3 Junctions</ToggleButton> */}
+                <ToggleButton value="TwoJunctions">2 Junctions</ToggleButton>
+                <ToggleButton value="ThreeJunctions">3 Junctions</ToggleButton>
             </ToggleButtonGroup>
             <FormTitle>
                 {
                     numOfJ==="ThreeJunctions"?"3 junctions Data":"2 junctions Data"
                 }
-            </FormTitle>
+                </FormTitle>
             <FormWrapper onSubmit={handleSubmit}>
                 <Stack>
                     <RadioGroup
@@ -598,7 +570,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
                     numOfJ==="TwoJunctions"&&
                     <>
                         <Stack spacing={2} direction="row" sx={{marginBottom: 4}}>
-                        <FormControlLabel control={<Checkbox checked={addFault} onChange={e => setAddFault(!addFault)} />} label={"Add Fault"} />
+                        <FormControlLabel control={<Checkbox checked={addFault} onChange={e => setAddFault(!addFault)} />} label={"Add phase to ground short circuit"} />
                         {
                             addFault&&<TextField
                             type="number"
@@ -617,7 +589,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
 
                 <Stack spacing={2} direction="row" sx={{marginBottom: 2}} justifyContent={"space-between"}>
                         <Button variant="outlined" color="secondary" type="submit">Draw</Button>
-                        {/* {
+                        {
                             impedanceType==="Z"&&
                             (lineType==="series"&numOfJ==="TwoJunctions"?
                             <Button variant="outlined" color="secondary" onClick={handleExampleOne}>Example 1</Button>:
@@ -628,7 +600,7 @@ const LatticeForm = ({numOfJ, setNumOfJ, setThreeJValues}) => {
                             lineType==="TJunction"&numOfJ==="ThreeJunctions"?
                             <Button variant="outlined" color="secondary" onClick={handleExampleFour}>Example 4</Button>:
                             null)
-                        } */}
+                        }
                         {/* {
                             lineType==="series"&impedanceType==="Z"?
                             <Button variant="outlined" color="secondary" onClick={handleExampleThree}>Example 3</Button> :
