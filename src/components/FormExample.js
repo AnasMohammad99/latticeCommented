@@ -66,13 +66,15 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
         for (let i = 0; i < inductance.length; i++) {
             LCImp.push(Math.sqrt(+inductance[i]/+capacitance[i]))   
         } 
-        impedanceType==="Z"?setThreeJValues(+amplitude, +numOfJunctions, impedance, length, velocity):
-        setThreeJValues(+amplitude, +numOfJunctions, LCImp, length, velocity)
+        impedanceType==="Z"&+numOfJunctions!==2?setThreeJValues([+amplitude, +numOfJunctions, impedance, length, velocity]):
+        impedanceType!=="Z"&+numOfJunctions!==2?setThreeJValues([+amplitude, +numOfJunctions, LCImp, length, velocity]):
+        impedanceType==="Z"&+numOfJunctions===2?setThreeJValues([+amplitude, 3, LCImp, length, velocity,1]):setThreeJValues([+amplitude, 3, LCImp, length, velocity, 1])
     }
     function handleReset(event){
         event.preventDefault();
         setNumOfJunctionsSended("")
         setNumOfJunctions("")
+        setThreeJValues([0,0,[0],[0],[0],0])
     }
     const handleImpedanceTypeRadio= (event) => {
         setImpedanceType(event.target.value);
@@ -117,12 +119,13 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                     <FormControlLabel value="L&C" control={<Radio />} label="L&C" />
             </RadioGroup>
         </Stack>
-        <Stack spacing={2} direction="row" sx={{marginBottom: 2}}>
+        <Stack style={{overflowX:"scroll"}} spacing={2} direction="row" sx={{marginBottom: 2}}>
             {
                 impedanceType==="Z"?
                 impedance.map((item, i)=>{
                     return(
                         <TextField
+                        style={{minWidth:"10rem"}}
                         key={i}
                         type="number"
                         variant='outlined'
@@ -134,11 +137,12 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                         />
                     )
                 }):<Stack spacing={2} direction="column">
-                <Stack spacing={2} direction="row">
+                <Stack  spacing={2} direction="row">
                     {
                         inductance.map((item, i)=>{
                             return(
                                     <TextField
+                                    style={{minWidth:"10rem"}}
                                     key={i}
                                     type="number"
                                     variant='outlined'
@@ -157,6 +161,7 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                         capacitance.map((item, i)=>{
                             return(
                                     <TextField
+                                    style={{minWidth:"10rem"}}
                                     key={i}
                                     type="number"
                                     variant='outlined'
@@ -186,12 +191,13 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                 sx={{mb: 2}}
             />
         </Stack>
-        <Stack spacing={2} direction="row" sx={{marginBottom: 2}}>
+        <Stack style={{overflowX:"scroll"}} spacing={2} direction="row" sx={{marginBottom: 2}}>
             {
                 length.map((item, i)=>{
                     return(
 
                         <TextField
+                        style={{minWidth:"10rem"}}
                         key={i}
                         type="number"
                         variant='outlined'
@@ -205,12 +211,13 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                 })
             }
             </Stack>
-            <Stack spacing={2} direction="row" sx={{marginBottom: 2}}>
+            <Stack style={{overflowX:"scroll"}} spacing={2} direction="row" sx={{marginBottom: 2}}>
             {
                 velocity.map((item, i)=>{
                     return(
 
                         <TextField
+                        style={{minWidth:"10rem"}}
                         key={i}
                         type="number"
                         variant='outlined'

@@ -7,9 +7,10 @@ import { AllCalculations } from "../ThreeJCalculations";
 
 Chart.register(CategoryScale);
 const LatticeChart = ({threeJValues}) => {
-  // console.log(threeJValues);
+  console.log(threeJValues);
   let [amplitude, NumOfJ, Z=[], length=[], velocity=[]] = threeJValues
-  let [voltageArr=[], currentArr=[], timeArr=[]] = AllCalculations(amplitude, NumOfJ, Z, length, velocity);
+  let [voltageArr=[], currentArr=[], timeArr=[]] = AllCalculations(amplitude,NumOfJ,Z,length,velocity);
+  console.log(voltageArr);
 
   // const data1 = {
   //   labels: timeArr[0],
@@ -83,9 +84,42 @@ const LatticeChart = ({threeJValues}) => {
   //     },
   //   ]
   // };
-  
+  let data = []
+  for (let i = 0; i < timeArr.length; i++) {
+      data.push({
+        labels: timeArr[i],
+        datasets: [
+            {
+              label: `Volt Junction ${i+1}`,
+              data: voltageArr[i],
+              borderColor: "rgb(255, 99, 132)",
+              fill: false,
+              stepped: true,
+          },
+        ]
+      })
+      data.push({
+        labels: timeArr[i],
+        datasets: [
+            {
+              label: `Current Junction ${i+1}`,
+              data: currentArr[i],
+              borderColor: "rgb(53, 162, 235)",
+              fill: false,
+              stepped: true,
+          },
+        ]
+      })
+  }
   return (
     <LineWrapper>
+      {
+        data.map((chart, index)=>{
+          return(
+            <Line key={index} data={chart} />
+          )
+        })
+      }
       {/* <Line data={data1} />
       <Line data={data2} />
         <>

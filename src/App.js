@@ -2,34 +2,23 @@ import styled from "styled-components";
 // import Lattice2JForm from './components/Lattice2JForm';
 // import Lattice3JForm from './components/Lattice3JForm';
 // import Lattice2JChart from './components/Lattice2JChart';
-// import Lattice3JChart from './components/Lattice3JChart';
+import Lattice3JChart from './components/Lattice3JChart';
 import { useState } from "react";
-import LatticeForm from "./components/LatticeForm";
-import { Button, Stack, TextField, ToggleButtonGroup } from "@mui/material";
+// import LatticeForm from "./components/LatticeForm";
+import { Button, Stack, TextField} from "@mui/material";
 // import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import FormExample from "./components/FormExample"
 
 function App() {
   // const [twoJValues, setTwoJValues] = useState([0,0,0,0,0,0])
-  const [threeJValues, setThreeJValues] = useState([0,0,[],[],[],0])
-  const [numOfJ, setNumOfJ] = useState('TwoJunctions');
+  const [threeJValues, setThreeJValues] = useState([0,0,[0],[0],[0],0])
   const [numOfJunctions, setNumOfJunctions] = useState("");
   const [numOfJunctionsSended, setNumOfJunctionsSended] = useState(""); 
     function handleFormOfProblem(event) {
+      event.preventDefault();
       setNumOfJunctionsSended(numOfJunctions)
     }
-    const handleChangeJ = (event) => {
-    // setNumOfJ(currentNumOfJ);
-    // console.log(numOfJunctions);
-    // setThreeJValues([0,0,0,0,0,0,0,0,0,0])
-    };
 
-  // const handleChangeJ = (event, currentNumOfJ) => {
-  //   setNumOfJ(currentNumOfJ);
-  //   // setTwoJValues([0,0,0,0,0,0])
-  //   setThreeJValues([0,0,0,0,0,0,0,0,0])
-  //   console.log(currentNumOfJ);
-  // };
   return (
     <Wrapper>
       <ProjectTitle>
@@ -37,14 +26,9 @@ function App() {
       </ProjectTitle>
       <LayoutWrapper>
         <SidebarWrapper>
-          <ToggleButtonGroup
-          color="primary"
-          value={numOfJ}
-          exclusive
-          onChange={handleChangeJ}
-          >
+          <form onSubmit={handleFormOfProblem}>
             <Stack 
-            style={{display:`${numOfJunctionsSended?"none":"block"}`}} 
+            style={{display:`${numOfJunctionsSended?"none":"flex"}`, justifyContent:"space-between"}} 
             spacing={2} direction="row" sx={{marginBottom: 2}} justifyContent={"space-between"}>
             <TextField
                 type="number"
@@ -56,23 +40,17 @@ function App() {
                 // fullWidth
                 required
             />
-            <Button variant="outlined" color="secondary" onClick={handleFormOfProblem}>Create</Button>
-            </Stack>   
-          </ToggleButtonGroup>
-            {/* numOfJ === "TwoJunctions"? 
-            <Lattice2JForm setTwoJValues={setTwoJValues} />:
-            <Lattice3JForm numOfJ={numOfJ} setNumOfJ={setNumOfJ} setThreeJValues={setThreeJValues} />
-
-            <LatticeForm numOfJunctions={numOfJunctions} /> */}
+            <Button type="submit" style={{height:"3.5rem"}} variant="outlined" color="secondary">Create</Button>
+            </Stack> 
+            </form>  
             {
               numOfJunctionsSended ? <FormExample setThreeJValues={setThreeJValues} numOfJunctions={numOfJunctions} setNumOfJunctions={setNumOfJunctions} setNumOfJunctionsSended={setNumOfJunctionsSended} numOfJunctionsSended = {numOfJunctionsSended} /> : null
             }
         </SidebarWrapper>
         <BodyWrapper>
-        {
-            // numOfJ === "TwoJunctions"? 
-            // <Lattice2JChart twoJValues={twoJValues} />:
-            // <Lattice3JChart numOfJ={numOfJ} threeJValues={threeJValues} />
+          {
+            threeJValues[0]>0 &&<Lattice3JChart threeJValues={threeJValues} />
+
           }
         </BodyWrapper>
       </LayoutWrapper>
@@ -104,16 +82,28 @@ const SidebarWrapper = styled.div`
     margin-right: 0;
     border-radius:10px;
     padding: 20px;
+    /* overflow-x: scroll; */
+    max-width: 50%;
+    min-width: 48%;
     /* max-width: 40rem; */
     @media (max-width: 876px) {
+      max-width: 100%;
+    /* min-width: 100%; */
       /* width: 90%; */
       margin-right: 25px;
   }
 `
 const BodyWrapper = styled.div`
+    max-width: 50%;
+    min-width: 40%;
     background-color: white;
     margin: 25px;
     border-radius:10px;
     padding: 20px;
+    @media (max-width: 876px) {
+      max-width: 100%;
+    /* min-width: 100%; */
+      /* width: 90%; */
+  }
 `
 export default App;

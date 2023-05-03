@@ -1,5 +1,5 @@
 function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0) {
-    console.log(amplitude, numOfJ, Z, length, velocity)
+    // console.log(amplitude, numOfJ, Z, length, velocity)
     let Vi = amplitude*1000;
     let Ii = Vi/Z[0]
     let T = []
