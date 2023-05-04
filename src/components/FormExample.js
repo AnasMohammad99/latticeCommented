@@ -1,4 +1,4 @@
-import { Button, FormControlLabel, Radio, RadioGroup, Stack, TextField } from "@mui/material"
+import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material"
 import { useState } from "react"
 import styled from 'styled-components';
 
@@ -99,14 +99,16 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
         let twoJL = []
         let newZT = []
         // let LCImpT = [[]]
-        if(lineType==="TJunction"&impedanceType==="Z"&+numOfJunctions!==2){
+        if(lineType!=="TJunction"&impedanceType==="Z"&+numOfJunctions!==2){
+            newZT = impedance
+
+        }else if(lineType==="TJunction"&impedanceType==="Z"&+numOfJunctions!==2){
             for (let i = 0; i < impedanceT.length; i++) {
                 if(i===impedanceT.length-2){
                   newZT.push([+impedanceT[i],+impedanceT[i+1]])
                   break;
                 }newZT.push(+impedanceT[i])
               }
-            //   console.log("TJZ",newZT);
         }else if(lineType!=="TJunction"&impedanceType!=="Z"&+numOfJunctions!==2){
             for (let i = 0; i < inductance.length; i++) {
                 newZT.push(Math.sqrt(+inductance[i]/+capacitance[i]))
@@ -128,39 +130,36 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
         }
         if(impedanceType==="Z"&+numOfJunctions===2&lineType==="series"){
             for (let i = 0; i < impedance.length; i++) {
-                if(i===1)twoJImpedance.push(+impedance[i])
-                twoJImpedance.push(+impedance[i])
+                if(i===1)newZT.push(+impedance[i])
+                newZT.push(+impedance[i])
                 } 
         }else if(impedanceType!=="Z"&+numOfJunctions===2&lineType==="series"){
             for (let i = 0; i < inductance.length; i++) {
-                if(i===1) twoJLCImp.push(Math.sqrt(+inductance[i]/+capacitance[i]))
-                twoJLCImp.push(Math.sqrt(+inductance[i]/+capacitance[i]))
+                if(i===1) newZT.push(Math.sqrt(+inductance[i]/+capacitance[i]))
+                newZT.push(Math.sqrt(+inductance[i]/+capacitance[i]))
                 }
         }else if(impedanceType==="Z"&+numOfJunctions===2&lineType==="TJunction"){
             for (let i = 0; i < impedanceT.length; i++) {
-                if(i===1)twoJImpedance.push(+impedanceT[i])              
+                if(i===1)newZT.push(+impedanceT[i])              
                 if(i===impedanceT.length-2){
-                    twoJImpedance.push([+impedanceT[i], +impedanceT[i+1]])
+                    newZT.push([+impedanceT[i], +impedanceT[i+1]])
                     break
-                }twoJImpedance.push(+impedanceT[i])
+                }newZT.push(+impedanceT[i])
                 } 
         }else if(impedanceType!=="Z"&+numOfJunctions===2&lineType==="TJunction"){
             for (let i = 0; i < inductanceT.length; i++) {  
-                if(i===1) twoJLCImp.push(Math.sqrt(+inductanceT[i]/+capacitanceT[i]))            
+                if(i===1) newZT.push(Math.sqrt(+inductanceT[i]/+capacitanceT[i]))            
                 if(i===inductanceT.length-2){
-                    twoJLCImp.push([Math.sqrt(+inductanceT[i]/+capacitanceT[i]),Math.sqrt(+inductanceT[i+1]/+capacitanceT[i+1])])
+                    newZT.push([Math.sqrt(+inductanceT[i]/+capacitanceT[i]),Math.sqrt(+inductanceT[i+1]/+capacitanceT[i+1])])
                     break;
-                  }twoJLCImp.push(Math.sqrt(+inductanceT[i]/+capacitanceT[i]))
+                  }newZT.push(Math.sqrt(+inductanceT[i]/+capacitanceT[i]))
                 }
         }
         
         
-        impedanceType==="Z"&+numOfJunctions!==2&lineType==="series"?setThreeJValues([+amplitude, +numOfJunctions, impedance, length, velocity,0]):
-        impedanceType!=="Z"&+numOfJunctions!==2&lineType==="series"?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity]):
-        impedanceType==="Z"&+numOfJunctions!==2&lineType==="TJunction"?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity]):
-        impedanceType!=="Z"&+numOfJunctions!==2&lineType==="TJunction"?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity]):
-        impedanceType==="Z"&+numOfJunctions===2?setThreeJValues([+amplitude, 3, twoJImpedance, twoJL, twoJV, 1]):
-        impedanceType!=="Z"&+numOfJunctions===2?setThreeJValues([+amplitude, 3, twoJLCImp, twoJL, twoJV, 1]):setThreeJValues([0,0,[0],[0],[0],0])
+        +numOfJunctions!==2?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity, 0]):
+        +numOfJunctions===2?setThreeJValues([+amplitude, 3, newZT, twoJL, twoJV, 1]):
+        setThreeJValues([0,0,[0],[0],[0],0])
     }
     function handleReset(event){
         event.preventDefault();
@@ -360,8 +359,8 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                     )
                 })
             }
-            </Stack>
-            <Stack style={{overflowX:"scroll"}} spacing={2} direction="row" sx={{marginBottom: 2}}>
+        </Stack>
+        <Stack style={{overflowX:"scroll"}} spacing={2} direction="row" sx={{marginBottom: 2}}>
             {
                 velocity.map((item, i)=>{
                     return(
@@ -380,11 +379,33 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                     )
                 })
             }
-            </Stack>
-            <Stack spacing={2} direction="row" sx={{marginBottom: 2}} justifyContent={"space-between"}>
+        </Stack>
+        {/* <Checkbox />
+        <FormControl fullWidth>
+        <InputLabel id="select-label">number of junction</InputLabel>
+        <Select
+          id="simple-select"
+          label="add fault after junction"
+        >
+          <MenuItem value={10}>1</MenuItem>
+          <MenuItem value={20}>2</MenuItem>
+          <MenuItem value={30}>3</MenuItem>
+        </Select>
+        <TextField
+                            type="number"
+                            variant='outlined'
+                            color='secondary'
+                            label="length from junction A (m)"
+                            
+                            
+                            fullWidth
+                            required
+                            />
+      </FormControl> */}
+        <Stack spacing={2} direction="row" sx={{marginBottom: 2}} justifyContent={"space-between"}>
             <Button variant="outlined" color="secondary" type="submit">Draw</Button>
             <Button variant="outlined" color="secondary" onClick={handleReset}>Reset</Button>
-            </Stack>
+        </Stack>
         </FormWrapper>
     </div>
   )

@@ -76,16 +76,16 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     let t01 = T[0]
     let t02 = T[numOfJ-2]
     while(i<=1000){
-        if(twoj===1){
-            j = i+1;
-            t01 = -T[0]
-            t02 = -T[numOfJ-2]
-        } else {
-            j=i;
-        }
-            time[0].push(time[1][j-1]+t01)
+        // if(twoj===1){
+        //     j = i+1;
+        //     t01 = -T[0]
+        //     t02 = -T[numOfJ-2]
+        // } else {
+        //     j=i;
+        // }
+            time[0].push(time[1][i-1]+t01)
             voltage[0].push(voltage[0][i-1]+(voltageL[1][i-1])*tauR[0])
-            time[numOfJ-1].push(time[numOfJ-2][j-1]+t02)
+            time[numOfJ-1].push(time[numOfJ-2][i-1]+t02)
             voltage[numOfJ-1].push(voltage[numOfJ-1][i-1]+(voltageR[numOfJ-2][i-1])*tauF[numOfJ-1])
             i++
         }
@@ -138,17 +138,17 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     t01 = T[0]
     t02 = T[numOfJ-2]
     while(i<=1000){
-        if(twoj===1){
-            j = i+1;
-            t01 = -T[0]
-            t02 = -T[numOfJ-2]
-        } else {
-            j=i;
-        }
-            time[0].push(time[1][j-1]+t01)
+        // if(twoj===1){
+        //     j = i+1;
+        //     t01 = -T[0]
+        //     t02 = -T[numOfJ-2]
+        // } else {
+        //     j=i;
+        // }
+            time[0].push(time[1][i-1]+t01)
             current[0].push(current[0][i-1]+(currentL[1][i-1])*tauiR[0])
 
-            time[numOfJ-1].push(time[numOfJ-2][j-1]+t02)
+            time[numOfJ-1].push(time[numOfJ-2][i-1]+t02)
             current[numOfJ-1].push(current[numOfJ-1][i-1]+(currentR[numOfJ-2][i-1])*tauiF[numOfJ-1])
             i++
         }
@@ -191,7 +191,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
             return [arrV, arrV, arrT]
           }
         newTime.map((arr, index)=>converter(newVoltage[index], newCurrent[index], arr))
-        // console.log(voltage[1], time[1]);
+        console.log(voltage, time);
         return [newVoltage, newCurrent, newTime]
 }
 // console.log(AllCalculations(.5, 3, [1e-15, 400, 40, Infinity], [450,300], [300,150]));
