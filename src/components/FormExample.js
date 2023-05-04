@@ -99,23 +99,22 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
         let twoJL = []
         let newZT = []
         // let LCImpT = [[]]
-        if(lineType==="TJunction"&impedanceType==="Z"){
+        if(lineType==="TJunction"&impedanceType==="Z"&+numOfJunctions!==2){
             for (let i = 0; i < impedanceT.length; i++) {
-                if(i==impedanceT.length-2){
+                if(i===impedanceT.length-2){
                   newZT.push([+impedanceT[i],+impedanceT[i+1]])
                   break;
                 }newZT.push(+impedanceT[i])
               }
-              console.log("TJZ",newZT);
-        }
-        if(lineType!=="TJunction"&impedanceType!=="Z"){
+            //   console.log("TJZ",newZT);
+        }else if(lineType!=="TJunction"&impedanceType!=="Z"&+numOfJunctions!==2){
             for (let i = 0; i < inductance.length; i++) {
                 newZT.push(Math.sqrt(+inductance[i]/+capacitance[i]))
             }
 
-        }else if(lineType==="TJunction"&impedanceType!=="Z"){
+        }else if(lineType==="TJunction"&impedanceType!=="Z"&+numOfJunctions!==2){
             for (let i = 0; i < inductanceT.length; i++) {
-                if(i==inductanceT.length-2){
+                if(i===inductanceT.length-2){
                   newZT.push([Math.sqrt(+inductanceT[i]/+capacitanceT[i]),Math.sqrt(+inductanceT[i+1]/+capacitanceT[i+1])])
                   break;
                 }newZT.push(Math.sqrt(+inductanceT[i]/+capacitanceT[i]))
@@ -127,27 +126,41 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
             twoJV.push(velocity[0])
             twoJV.push(velocity[0])
         }
-        if(impedanceType==="Z"&+numOfJunctions===2){
+        if(impedanceType==="Z"&+numOfJunctions===2&lineType==="series"){
             for (let i = 0; i < impedance.length; i++) {
                 if(i===1)twoJImpedance.push(+impedance[i])
                 twoJImpedance.push(+impedance[i])
                 } 
-            }else if(impedanceType!=="Z"&+numOfJunctions===2){
-                for (let i = 0; i < inductance.length; i++) {
-                    if(i===1) twoJLCImp.push(Math.sqrt(+inductance[i]/+capacitance[i]))
-                    twoJLCImp.push(Math.sqrt(+inductance[i]/+capacitance[i]))
-                    }
-            }
+        }else if(impedanceType!=="Z"&+numOfJunctions===2&lineType==="series"){
+            for (let i = 0; i < inductance.length; i++) {
+                if(i===1) twoJLCImp.push(Math.sqrt(+inductance[i]/+capacitance[i]))
+                twoJLCImp.push(Math.sqrt(+inductance[i]/+capacitance[i]))
+                }
+        }else if(impedanceType==="Z"&+numOfJunctions===2&lineType==="TJunction"){
+            for (let i = 0; i < impedanceT.length; i++) {
+                if(i===1)twoJImpedance.push(+impedanceT[i])              
+                if(i===impedanceT.length-2){
+                    twoJImpedance.push([+impedanceT[i], +impedanceT[i+1]])
+                    break
+                }twoJImpedance.push(+impedanceT[i])
+                } 
+        }else if(impedanceType!=="Z"&+numOfJunctions===2&lineType==="TJunction"){
+            for (let i = 0; i < inductanceT.length; i++) {  
+                if(i===1) twoJLCImp.push(Math.sqrt(+inductanceT[i]/+capacitanceT[i]))            
+                if(i===inductanceT.length-2){
+                    twoJLCImp.push([Math.sqrt(+inductanceT[i]/+capacitanceT[i]),Math.sqrt(+inductanceT[i+1]/+capacitanceT[i+1])])
+                    break;
+                  }twoJLCImp.push(Math.sqrt(+inductanceT[i]/+capacitanceT[i]))
+                }
+        }
         
-
+        
         impedanceType==="Z"&+numOfJunctions!==2&lineType==="series"?setThreeJValues([+amplitude, +numOfJunctions, impedance, length, velocity,0]):
         impedanceType!=="Z"&+numOfJunctions!==2&lineType==="series"?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity]):
-        impedanceType==="Z"&+numOfJunctions===2&lineType==="series"?setThreeJValues([+amplitude, 3, twoJImpedance, twoJL, twoJL, 1]):
-        impedanceType!=="Z"&+numOfJunctions===2&lineType==="series"?setThreeJValues([+amplitude, 3, twoJLCImp, twoJL, twoJL, 1]):
         impedanceType==="Z"&+numOfJunctions!==2&lineType==="TJunction"?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity]):
         impedanceType!=="Z"&+numOfJunctions!==2&lineType==="TJunction"?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity]):
-        impedanceType==="Z"&+numOfJunctions===2&lineType==="TJunction"?setThreeJValues([+amplitude, 3, twoJImpedance, twoJL, twoJL, 1]):
-        impedanceType!=="Z"&+numOfJunctions===2&lineType==="TJunction"?setThreeJValues([+amplitude, 3, twoJLCImp, twoJL, twoJL, 1]):setThreeJValues([0,0,[0],[0],[0],0])
+        impedanceType==="Z"&+numOfJunctions===2?setThreeJValues([+amplitude, 3, twoJImpedance, twoJL, twoJV, 1]):
+        impedanceType!=="Z"&+numOfJunctions===2?setThreeJValues([+amplitude, 3, twoJLCImp, twoJL, twoJV, 1]):setThreeJValues([0,0,[0],[0],[0],0])
     }
     function handleReset(event){
         event.preventDefault();
