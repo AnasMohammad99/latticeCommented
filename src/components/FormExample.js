@@ -19,6 +19,8 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
     const [impedanceType, setImpedanceType] = useState("Z");
     const [lineType, setLineType] = useState("series");
     const [addFault, setAddFault] = useState(false)
+    const [faultLength, setFaultLength] = useState("");
+    const [numOfSection, setNumOfSection] = useState("");
     const changeOneImpedance = (index, newValue) => {
         setImpedance(existingItems=>{
             return[
@@ -91,6 +93,7 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
             ]
         })
     }
+    let newZT = []
     function handleSubmit(event) {
         event.preventDefault();
         // let LCImp = []
@@ -98,7 +101,6 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
         let twoJImpedance = []
         let twoJV = []
         let twoJL = []
-        let newZT = []
         // let LCImpT = [[]]
         if(lineType!=="TJunction"&impedanceType==="Z"&+numOfJunctions!==2){
             newZT = impedance
@@ -158,8 +160,10 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
         }
         
         
-        +numOfJunctions!==2?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity, 0]):
-        +numOfJunctions===2?setThreeJValues([+amplitude, 3, newZT, twoJL, twoJV, 1]):
+        +numOfJunctions!==2&addFault===false?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity, 0]):
+        +numOfJunctions===2&addFault===false?setThreeJValues([+amplitude, 3, newZT, twoJL, twoJV, 1]):
+        +numOfJunctions!==2&addFault===true?setThreeJValues([+amplitude, +numOfJunctions+1, [...newZT.slice(0,numOfSection),0,...newZT.slice(numOfSection,)], [...length.slice(0,numOfSection-1),+faultLength,length[numOfSection-1]-+faultLength,length.slice(numOfSection,)], [...velocity.slice(0,numOfSection),velocity[numOfSection-1],velocity.slice(numOfSection,)], 0]):
+        +numOfJunctions===2&addFault===true?setThreeJValues([+amplitude, 3, [...newZT.slice(0,2),0,...newZT.slice(3,)], [+faultLength,(twoJL[0]*2-+faultLength)], twoJV, 1]):
         setThreeJValues([0,0,[0],[0],[0],0])
     }
     function handleReset(event){
@@ -382,19 +386,34 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
             }
         </Stack>
         <Stack style={{overflowX:"scroll"}} spacing={2} direction="row" sx={{marginBottom: 2}}>
-                        <FormControlLabel control={<Checkbox checked={addFault} onChange={e => setAddFault(!addFault)} />} label={"Add Fault"} />
+        <Stack spacing={2} direction="row"  style={{width:"100%", justifyContent:"space-between"}} sx={{marginBottom: 4}}>
+                        <FormControlLabel control={<Checkbox checked={addFault} onChange={e => setAddFault(!addFault)} />} label={addFault?"short circuit at : ":"Add phase to ground short circuit"} />
+                        {/* <Checkbox checked={addFault} onChange={e => setAddFault(!addFault)} /> */}
                         {
-                            addFault&&<TextField
-                            type="number"
-                            variant='outlined'
-                            color='secondary'
-                            label="length from junction A (m)"
-                            // onChange={e =>setFaultLength(e.target.value) }
-                            // value={faultLength}
-                            fullWidth
-                            required
-                            />
+                            addFault&&<Stack spacing={2} direction="column" sx={{marginBottom: 2}}>
+                                        <TextField
+                                        type="number"
+                                        variant='outlined'
+                                        color='secondary'
+                                        label="num of section"
+                                        onChange={e =>setNumOfSection(e.target.value) }
+                                        value={numOfSection}
+                                        required
+                                        />
+                                        <TextField
+                                        type="number"
+                                        variant='outlined'
+                                        color='secondary'
+                                        label="length (m)"
+                                        onChange={e =>setFaultLength(e.target.value) }
+                                        value={faultLength}
+                                        fullWidth
+                                        required
+                                        />
+                            
+                            </Stack>
                         }
+                        </Stack>
         </Stack>
         {/* <Checkbox />
         <FormControl fullWidth>

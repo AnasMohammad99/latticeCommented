@@ -33,6 +33,8 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
         tauR.push(1-rhoF[i]);
         rhoR.push(tauR[i]-1);
     }
+    //------------------------------------------------------------
+    console.log(tauF, tauR, rhoF,rhoR);
     //----------------------middle volt----------------------------
     let tInital = 0
     voltageR[0].push(Vi*tauF[0])
@@ -92,6 +94,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     time[numOfJ-1].push(0)
     voltage[0].push(Vi*tauF[0])
     voltage[numOfJ-1].push(0)
+    voltageTr[0].push(voltage[0][0])
     voltageTr[numOfJ-1].push(0)
   //  let j = 2;
     let t01 = T[0]
@@ -251,10 +254,10 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
             }
 
 
-        // console.log(time);
+        // console.log(voltageTr[0], voltageL[1], time);
         return [newVoltage, newCurrent, newTime]
 }
-// console.log(AllCalculations(.5, 4, [1e-15, 400, 40, 200, Infinity], [450,300,100], [300,150,100]));
+// console.log(AllCalculations(.5, 3, [200, 400, 40, Infinity], [450,300], [300,150]));
 
 export {
 AllCalculations
