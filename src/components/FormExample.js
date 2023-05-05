@@ -18,6 +18,7 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
     const [velocity, setVelocity] = useState([...LENGTH_VELOCITY_LIST])
     const [impedanceType, setImpedanceType] = useState("Z");
     const [lineType, setLineType] = useState("series");
+    const [addFault, setAddFault] = useState(false)
     const changeOneImpedance = (index, newValue) => {
         setImpedance(existingItems=>{
             return[
@@ -379,6 +380,21 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                     )
                 })
             }
+        </Stack>
+        <Stack style={{overflowX:"scroll"}} spacing={2} direction="row" sx={{marginBottom: 2}}>
+                        <FormControlLabel control={<Checkbox checked={addFault} onChange={e => setAddFault(!addFault)} />} label={"Add Fault"} />
+                        {
+                            addFault&&<TextField
+                            type="number"
+                            variant='outlined'
+                            color='secondary'
+                            label="length from junction A (m)"
+                            // onChange={e =>setFaultLength(e.target.value) }
+                            // value={faultLength}
+                            fullWidth
+                            required
+                            />
+                        }
         </Stack>
         {/* <Checkbox />
         <FormControl fullWidth>
