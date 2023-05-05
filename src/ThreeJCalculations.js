@@ -176,6 +176,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     time[numOfJ-1].push(0)
     current[0].push(Ii*tauiF[0])
     current[numOfJ-1].push(0)
+    currentTr[0].push(current[0][0])
     currentTr[numOfJ-1].push(0)
     //j = 2;
     t01 = T[0]
