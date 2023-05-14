@@ -5,15 +5,22 @@ import styled from "styled-components";
 import Lattice3JChart from './components/Lattice3JChart';
 import { useState } from "react";
 // import LatticeForm from "./components/LatticeForm";
-import { Button, CircularProgress, Stack, TextField} from "@mui/material";
+import { Button, Stack, TextField} from "@mui/material";
 // import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import FormExample from "./components/FormExample"
+import LatticeLines from "./components/LatticeLines";
+import { AllCalculations } from "./ThreeJCalculations";
 
 function App() {
   // const [twoJValues, setTwoJValues] = useState([0,0,0,0,0,0])
-  const [threeJValues, setThreeJValues] = useState([0,0,[0],[0],[0],0])
+  const [threeJValues, setThreeJValues] = useState([0,0,[0],[0],[0],0,0])
   const [numOfJunctions, setNumOfJunctions] = useState("");
   const [numOfJunctionsSended, setNumOfJunctionsSended] = useState(""); 
+  let [amplitude, NumOfJ, Z=[], length=[], velocity=[], twoj, numOfIterations] = threeJValues
+  let [voltageArr, currentArr, timeArr, voltCoefficients, currentCoeffecients]=[[],[],[],[],[]]
+  if(NumOfJ>1){
+    [voltageArr, currentArr, timeArr, voltCoefficients, currentCoeffecients] = AllCalculations(amplitude,NumOfJ,Z,length,velocity, twoj, numOfIterations);
+  }
     function handleFormOfProblem(event) {
       event.preventDefault();
       setNumOfJunctionsSended(numOfJunctions)
@@ -48,10 +55,24 @@ function App() {
             }
         </SidebarWrapper>
         <BodyWrapper>
-          {
-            threeJValues[0]>0?<Lattice3JChart threeJValues={threeJValues} />:
-            <CircularProgress />
-          }
+          <LatticeChartWrapper>
+            {
+              threeJValues[1]>1?<Lattice3JChart voltageArr={voltageArr} currentArr={currentArr} timeArr={timeArr} threeJValues={threeJValues} />:
+              null
+            }
+          </LatticeChartWrapper>
+          <LatticeTransmitWrapper>
+            {
+              threeJValues[1]>1?<LatticeLines coefficients = {voltCoefficients} lineColor="rgb(255, 99, 132)" transmit={voltageArr} timeArr={timeArr} />:
+              null
+            }
+          </LatticeTransmitWrapper>
+          <LatticeTransmitWrapper>
+            {
+              threeJValues[1]>1?<LatticeLines coefficients = {currentCoeffecients} lineColor="rgb(53, 162, 235)" transmit={currentArr} timeArr={timeArr} />:
+              null
+            }
+          </LatticeTransmitWrapper>
         </BodyWrapper>
       </LayoutWrapper>
     </Wrapper>
@@ -83,8 +104,8 @@ const SidebarWrapper = styled.div`
     border-radius:10px;
     padding: 20px;
     /* overflow-x: scroll; */
-    max-width: 50%;
-    min-width: 48%;
+    max-width: 45%;
+    min-width: 45%;
     /* max-width: 40rem; */
     @media (max-width: 876px) {
       max-width: 100%;
@@ -96,12 +117,35 @@ const SidebarWrapper = styled.div`
 const BodyWrapper = styled.div`
     max-width: 50%;
     min-width: 40%;
-    background-color: white;
     margin: 25px;
-    border-radius:10px;
-    padding: 20px;
+    /* border-radius:10px; */
+    /* padding: 20px; */
     @media (max-width: 876px) {
       max-width: 100%;
+    /* min-width: 100%; */
+      /* width: 90%; */
+  }
+`
+const LatticeChartWrapper = styled.div`
+  background-color: white;
+  /* width: 95%; */
+    margin-bottom: 25px;
+    border-radius:10px;
+    padding: 19px;
+    @media (max-width: 876px) {
+      width: 95%;
+    /* min-width: 100%; */
+      /* width: 90%; */
+  }
+`
+const LatticeTransmitWrapper = styled.div`
+  background-color: white;
+  /* width: 95%; */
+    margin-bottom: 25px;
+    border-radius:10px;
+    padding: 19px;
+    @media (max-width: 876px) {
+      width: 95%;
     /* min-width: 100%; */
       /* width: 90%; */
   }

@@ -1,8 +1,9 @@
-function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0) {
-    console.log(amplitude, numOfJ, Z, length, velocity, twoj)
+function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0, numOfIterations) {
+    // console.log(amplitude, numOfJ, Z, length, velocity, twoj)
     let Vi = amplitude*1000;
-    let Ii = Vi/Z[0]
+    let Ii = Z[0]===0?Vi/(1e-15):Vi/Z[0]
     let T = []
+    // let numOfIterations = 1000;
     for (let i = 0; i < numOfJ-1; i++) {
         T.push(length[i]/velocity[i])
     } 
@@ -35,6 +36,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     }
     //------------------------------------------------------------
     console.log(tauF, tauR, rhoF,rhoR);
+    let voltCoefficients = [tauF, tauR, rhoF,rhoR]
     //----------------------middle volt----------------------------
     let tInital = 0
     voltageR[0].push(Vi*tauF[0])
@@ -47,7 +49,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
         voltage[m].push(voltageR[m][0])
         voltageTr[m].push(voltageR[m][0])
         let i = 1
-        while (i<=1000) {
+        while (i<=numOfIterations) {
            if(m===1){
                 time[m].push(time[m][i-1]+2*T[m-1]);
 
@@ -99,7 +101,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
   //  let j = 2;
     let t01 = T[0]
     let t02 = T[numOfJ-2]
-    while(i<=1000){
+    while(i<=numOfIterations){
         // if(twoj===1){
         //     j = i+1;
         //     t01 = -T[0]
@@ -118,18 +120,19 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     let tauiR = tauF;
     let rhoiF = rhoR;
     let rhoiR = rhoF;
+    let currentCoeffecients = [tauiF, tauiR, rhoiF, rhoiR]
     tInital = 0
     currentR[0].push(Ii*tauiF[0])
     m = 1
     while (m<=numOfJ-2) {
-        tInital = tInital + T[m-1]
-        time[m].push(tInital)
+        // tInital = tInital + T[m-1]
+        // time[m].push(tInital)
         currentL[m].push(currentR[m-1][0]*rhoiF[m])
         currentR[m].push(currentR[m-1][0]*tauiF[m])
         current[m].push(currentR[m][0])
         currentTr[m].push(currentR[m][0])
         let i = 1
-        while (i<=1000) {
+        while (i<=numOfIterations) {
             // time[m].push(time[m][i-1]+2*T[m-1]);
 
             // currentL[m].push((currentL[m][i-1])*rhoiR[m-1]*rhoiF[m]);
@@ -137,14 +140,14 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
             // //current[m].push((current[m][current[m].length-1])+currentR[m][currentR[m].length-1]);
             // currentTr[m].push(currentR[m][currentR[m].length-1]);
             if(m===1){
-                time[m].push(time[m][i-1]+2*T[m-1]);
+                // time[m].push(time[m][i-1]+2*T[m-1]);
 
                 currentL[m].push((currentL[m][i-1])*rhoiR[m-1]*rhoiF[m]);
                 currentR[m].push((currentL[m][i-1])*rhoiR[m-1]*tauiF[m]);
                 //current[m].push((current[m][current[m].length-1])+currentR[m][currentR[m].length-1]);
                 currentTr[m].push(currentR[m][currentR[m].length-1]);
            }else{
-                time[m].push(time[m-1][i]+T[m-1]);
+                // time[m].push(time[m-1][i]+T[m-1]);
 
                 currentL[m].push((currentR[m-1][i])*rhoiF[m]);
                 currentR[m].push((currentR[m-1][i])*tauiF[m]);
@@ -159,7 +162,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
                     Tadd = Tadd +T[m-1+j]
                     TauiMultiply = TauiMultiply*tauiF[j]*tauiR[j]
                 } 
-                time[m].push(time[m][i-1]+2*Tadd)
+                // time[m].push(time[m][i-1]+2*Tadd)
                 currentL[m].push(currentR[m][i-1]*tauiR[m]*rhoiF[m+j]*TauiMultiply)
                 currentR[m].push(currentR[m][i-1]*rhoiR[m]*rhoiF[m+j]*TauiMultiply)
                 // current[m].push((current[m][current[m].length-1])+currentL[m][currentL[m].length-1])
@@ -172,8 +175,8 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     }
     //-------------------------edged current---------------------------
     i = 1
-    time[0].push(0)
-    time[numOfJ-1].push(0)
+    // time[0].push(0)
+    // time[numOfJ-1].push(0)
     current[0].push(Ii*tauiF[0])
     current[numOfJ-1].push(0)
     currentTr[0].push(current[0][0])
@@ -181,7 +184,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     //j = 2;
     t01 = T[0]
     t02 = T[numOfJ-2]
-    while(i<=1000){
+    while(i<=numOfIterations){
         // if(twoj===1){
         //     j = i+1;
         //     t01 = -T[0]
@@ -189,10 +192,10 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
         // } else {
         //     j=i;
         // }
-            time[0].push(time[1][i-1]+t01)
+            // time[0].push(time[1][i-1]+t01)
             currentTr[0].push((currentL[1][i-1])*tauiR[0])
 
-            time[numOfJ-1].push(time[numOfJ-2][i-1]+t02)
+            // time[numOfJ-1].push(time[numOfJ-2][i-1]+t02)
             currentTr[numOfJ-1].push((currentR[numOfJ-2][i-1])*tauiF[numOfJ-1])
             i++
         }
@@ -213,9 +216,9 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
         let temp;
         
         function converter(arrV,arrC,arrT) {
-            for(let i=0; i<arrT.length/2; i++) {
+            for(let i=0; i<arrT.length; i++) {
           
-              for (let j=i+1; j<arrT.length/2; j++) {
+              for (let j=i+1; j<arrT.length; j++) {
           
                 if(arrT[i] > arrT[j]) {
           
@@ -256,7 +259,8 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
 
 
         // console.log(voltageTr[0], voltageL[1], time);
-        return [newVoltage, newCurrent, newTime]
+        return [newVoltage, newCurrent, newTime, voltCoefficients, currentCoeffecients]
+        // console.dir(time, {'maxArrayLength': null});
 }
 // console.log(AllCalculations(.5, 3, [200, 400, 40, Infinity], [450,300], [300,150]));
 

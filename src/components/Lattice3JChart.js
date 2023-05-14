@@ -6,10 +6,10 @@ import styled from "styled-components";
 import { AllCalculations } from "../ThreeJCalculations";
 
 Chart.register(CategoryScale);
-const LatticeChart = ({threeJValues}) => {
+const LatticeChart = ({voltageArr, currentArr, timeArr, threeJValues}) => {
   console.log(threeJValues);
-  let [amplitude, NumOfJ, Z=[], length=[], velocity=[], twoj] = threeJValues
-  let [voltageArr=[], currentArr=[], timeArr=[]] = AllCalculations(amplitude,NumOfJ,Z,length,velocity, twoj);
+  // let [amplitude, NumOfJ, Z=[], length=[], velocity=[], twoj] = threeJValues
+  // let [voltageArr=[], currentArr=[], timeArr=[]] = AllCalculations(amplitude,NumOfJ,Z,length,velocity, twoj);
   // console.log(voltageArr);
 
   // const data1 = {
@@ -86,7 +86,7 @@ const LatticeChart = ({threeJValues}) => {
   // };
   let data = []
   for (let i = 0; i < timeArr.length; i++) {
-      data.push({
+      data.push([{
         labels: timeArr[i],
         datasets: [
             {
@@ -96,9 +96,26 @@ const LatticeChart = ({threeJValues}) => {
               fill: false,
               stepped: true,
           },
-        ]
-      })
-      data.push({
+        ],
+      }, 
+      {
+        scales: {
+          x:{
+            title:{
+              display:true,
+              text:"Time(s)",
+            }
+          },
+          y:{
+            title:{
+              display:true,
+              text:"Voltage (V)"
+            },
+          }
+        },     
+      }
+    ])
+      data.push([{
         labels: timeArr[i],
         datasets: [
             {
@@ -109,14 +126,31 @@ const LatticeChart = ({threeJValues}) => {
               stepped: true,
           },
         ]
-      })
+      },
+      {
+        scales: {
+          x:{
+            title:{
+              display:true,
+              text:"Time (s)"
+            }
+          },
+          y:{
+            title:{
+              display:true,
+              text:"Current (A)"
+            }
+          }
+        },     
+      }
+    ])
   }
   return (
     <LineWrapper>
       {
         data.map((chart, index)=>{
           return(
-            <Line key={index} data={chart} />
+            <Line key={index} data={chart[0]} options={chart[1]} />
           )
         })
       }

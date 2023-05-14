@@ -8,6 +8,7 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
     const IMPEDANCE_T_LIST = Array.from({ length:  (+numOfJunctionsSended+2)}, () => "")
     const LENGTH_VELOCITY_LIST = Array.from({ length:  (+numOfJunctionsSended-1)}, () => "")
     const [amplitude, setAmplitude] = useState("");
+    const [numOfIterations, setNumOfIterations] = useState("");
     const [impedance, setImpedance] = useState([...IMPEDANCE_LIST]);
     const [inductance, setInductance] = useState([...IMPEDANCE_LIST])
     const [capacitance, setCapacitance] = useState([...IMPEDANCE_LIST])
@@ -160,11 +161,11 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
         }
         
         
-        +numOfJunctions!==2&addFault===false?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity, 0]):
-        +numOfJunctions===2&addFault===false?setThreeJValues([+amplitude, 3, newZT, twoJL, twoJV, 1]):
-        +numOfJunctions!==2&addFault===true?setThreeJValues([+amplitude, +numOfJunctions+1, [...newZT.slice(0,numOfSection),0,...newZT.slice(numOfSection,)], [...length.slice(0,numOfSection-1),+faultLength,length[numOfSection-1]-+faultLength,length.slice(numOfSection,)], [...velocity.slice(0,numOfSection),velocity[numOfSection-1],velocity.slice(numOfSection,)], 0]):
-        +numOfJunctions===2&addFault===true?setThreeJValues([+amplitude, 3, [...newZT.slice(0,2),0,...newZT.slice(3,)], [+faultLength,(twoJL[0]*2-+faultLength)], twoJV, 1]):
-        setThreeJValues([0,0,[0],[0],[0],0])
+        +numOfJunctions!==2&addFault===false?setThreeJValues([+amplitude, +numOfJunctions, newZT, length, velocity, 0,numOfIterations]):
+        +numOfJunctions===2&addFault===false?setThreeJValues([+amplitude, 3, newZT, twoJL, twoJV, 1,numOfIterations]):
+        +numOfJunctions!==2&addFault===true?setThreeJValues([+amplitude, +numOfJunctions+1, [...newZT.slice(0,numOfSection),0,...newZT.slice(numOfSection,)], [...length.slice(0,numOfSection-1),+faultLength,length[numOfSection-1]-+faultLength,...length.slice(numOfSection,)], [...velocity.slice(0,numOfSection),velocity[numOfSection-1],...velocity.slice(numOfSection,)], 0,numOfIterations]):
+        +numOfJunctions===2&addFault===true?setThreeJValues([+amplitude, 3, [...newZT.slice(0,2),0,...newZT.slice(3,)], [+faultLength,(twoJL[0]*2-+faultLength)], twoJV, 1,numOfIterations]):
+        setThreeJValues([0,0,[0],[0],[0],0,0])
     }
     function handleReset(event){
         event.preventDefault();
@@ -214,6 +215,18 @@ function FormExample({setThreeJValues, numOfJunctionsSended, setNumOfJunctionsSe
                     <FormControlLabel value="Z" control={<Radio />} label="Z" />
                     <FormControlLabel value="L&C" control={<Radio />} label="L&C" />
             </RadioGroup>
+        </Stack>
+        <Stack spacing={2} direction="row">
+            <TextField
+                type="number"
+                variant='outlined'
+                color='secondary'
+                label="numOfIterations"
+                onChange={e => setNumOfIterations(e.target.value)}
+                value={numOfIterations}
+                fullWidth
+                sx={{mb: 2}}
+            />
         </Stack>
         <Stack style={{overflowX:"scroll"}} spacing={2} direction="row" sx={{marginBottom: 2}}>
             {
