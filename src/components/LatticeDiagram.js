@@ -1,13 +1,13 @@
 import {Typography } from '@mui/material'
 import Stack from '@mui/material/Stack';
-import React from 'react'
+import React, { Fragment } from 'react'
 import { ArrowForward, KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-material';
 import { Divider } from 'antd';
 
 // let arr = [1.526,7.65,13.456,17.597]
 
 
-const LatticeLine = ({index, junctionTime, junctionTransmit, lineColor, coefficients}) => {
+const LatticeDiagram = ({index, junctionTime, junctionTransmit, lineColor, coefficients}) => {
   return (
     <div>
       <Stack style={{margin:"10px", width:"fit-content", minWidth:"12.5rem", display:"flex", justifyContent:"center", alignItems:"center"}}>
@@ -23,8 +23,8 @@ const LatticeLine = ({index, junctionTime, junctionTransmit, lineColor, coeffici
        {
         junctionTime.map((element, index)=>{
           return(
-            <>
-              <Stack key={index} style={{display:"flex", flexDirection:"row"}}>
+            <Fragment key={index}>
+              <Stack style={{display:"flex", flexDirection:"row"}}>
                 <ArrowForward />
                 <Stack style={{alignItems:"center"}}>
                 <Typography>{element} s</Typography>
@@ -32,7 +32,7 @@ const LatticeLine = ({index, junctionTime, junctionTransmit, lineColor, coeffici
                 </Stack>
               </Stack>
               <Divider style={{width:"5px", height:"200px", backgroundColor:lineColor}} type="vertical" />
-            </>
+            </Fragment>
           )
         })
        }
@@ -41,4 +41,4 @@ const LatticeLine = ({index, junctionTime, junctionTransmit, lineColor, coeffici
   )
 }
 
-export default LatticeLine
+export default LatticeDiagram

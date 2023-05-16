@@ -1,18 +1,12 @@
 import styled from "styled-components";
-// import Lattice2JForm from './components/Lattice2JForm';
-// import Lattice3JForm from './components/Lattice3JForm';
-// import Lattice2JChart from './components/Lattice2JChart';
-import Lattice3JChart from './components/Lattice3JChart';
+import Lattice3JChart from './components/LatticeChart';
 import { useState } from "react";
-// import LatticeForm from "./components/LatticeForm";
 import { Button, Stack, TextField} from "@mui/material";
-// import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-import FormExample from "./components/FormExample"
-import LatticeLines from "./components/LatticeLines";
+import LatticeForm from "./components/LatticeForm"
+import LatticeDiagrams from "./components/LatticeDiagrams";
 import { AllCalculations } from "./ThreeJCalculations";
 
 function App() {
-  // const [twoJValues, setTwoJValues] = useState([0,0,0,0,0,0])
   const [threeJValues, setThreeJValues] = useState([0,0,[0],[0],[0],0,0])
   const [numOfJunctions, setNumOfJunctions] = useState("");
   const [numOfJunctionsSended, setNumOfJunctionsSended] = useState(""); 
@@ -51,7 +45,7 @@ function App() {
             </Stack> 
             </form>  
             {
-              numOfJunctionsSended ? <FormExample setThreeJValues={setThreeJValues} numOfJunctions={numOfJunctions} setNumOfJunctions={setNumOfJunctions} setNumOfJunctionsSended={setNumOfJunctionsSended} numOfJunctionsSended = {numOfJunctionsSended} /> : null
+              numOfJunctionsSended ? <LatticeForm setThreeJValues={setThreeJValues} numOfJunctions={numOfJunctions} setNumOfJunctions={setNumOfJunctions} setNumOfJunctionsSended={setNumOfJunctionsSended} numOfJunctionsSended = {numOfJunctionsSended} /> : null
             }
         </SidebarWrapper>
         <BodyWrapper>
@@ -63,13 +57,13 @@ function App() {
           </LatticeChartWrapper>
           <LatticeTransmitWrapper>
             {
-              threeJValues[1]>1?<LatticeLines coefficients = {voltCoefficients} lineColor="rgb(255, 99, 132)" transmit={voltageArr} timeArr={timeArr} />:
+              threeJValues[1]>1?<LatticeDiagrams coefficients = {voltCoefficients} lineColor="rgb(255, 99, 132)" transmit={voltageArr} timeArr={timeArr} />:
               null
             }
           </LatticeTransmitWrapper>
           <LatticeTransmitWrapper>
             {
-              threeJValues[1]>1?<LatticeLines coefficients = {currentCoeffecients} lineColor="rgb(53, 162, 235)" transmit={currentArr} timeArr={timeArr} />:
+              threeJValues[1]>1?<LatticeDiagrams coefficients = {currentCoeffecients} lineColor="rgb(53, 162, 235)" transmit={currentArr} timeArr={timeArr} />:
               null
             }
           </LatticeTransmitWrapper>
