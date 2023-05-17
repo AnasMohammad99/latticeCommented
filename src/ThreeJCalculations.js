@@ -107,12 +107,12 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
                 
                 } 
                 time[m].push(time[m][i-1]+2*Tadd)
-                voltageL[m].push(voltageR[m][i-1]*tauR[m]*rhoF[m+j]*TauMultiply)
-                voltageR[m].push(voltageR[m][i-1]*rhoR[m]*rhoF[m+j]*TauMultiply)
+                voltageL[m].push(voltageR[m][i-1]*rhoF[m+j]*tauR[m]*TauMultiply)
+                voltageR[m].push(voltageR[m][i-1]*rhoF[m+j]*rhoR[m]*TauMultiply)
                 voltageTr[m].push(voltageL[m][voltageL[m].length-1])
                 //-------------current
-                currentL[m].push(currentR[m][i-1]*tauiR[m]*rhoiF[m+j]*TauiMultiply)
-                currentR[m].push(currentR[m][i-1]*rhoiR[m]*rhoiF[m+j]*TauiMultiply)
+                currentL[m].push(currentR[m][i-1]*rhoiF[m+j]*tauiR[m]*TauiMultiply)
+                currentR[m].push(currentR[m][i-1]*rhoiF[m+j]*rhoiR[m]*TauiMultiply)
                 currentTr[m].push(currentL[m][currentL[m].length-1])
                 j++
             }
