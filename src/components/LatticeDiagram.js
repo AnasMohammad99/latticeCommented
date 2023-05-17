@@ -1,10 +1,9 @@
 import {Typography } from '@mui/material'
 import Stack from '@mui/material/Stack';
 import React, { Fragment } from 'react'
-import { ArrowForward, KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-material';
+import { ArrowBack, ArrowForward, KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-material';
 import { Divider } from 'antd';
-
-// let arr = [1.526,7.65,13.456,17.597]
+import styled from 'styled-components';
 
 
 const LatticeDiagram = ({index, junctionTime, junctionTransmit, lineColor, coefficients}) => {
@@ -24,14 +23,23 @@ const LatticeDiagram = ({index, junctionTime, junctionTransmit, lineColor, coeff
         junctionTime.map((element, index)=>{
           return(
             <Fragment key={index}>
+              <DividerStyled 
+              lineColor={lineColor}
+              junctionTime={junctionTime}
+              index={index}
+              // style={{width:"5px", height:"200px", backgroundColor:lineColor}} 
+              type="vertical"
+               />
               <Stack style={{display:"flex", flexDirection:"row"}}>
-                <ArrowForward />
                 <Stack style={{alignItems:"center"}}>
-                <Typography>{element} s</Typography>
-                <Typography>{+junctionTransmit[index].toFixed(2)} {lineColor==="rgb(255, 99, 132)"?"V":"A"}</Typography>
+                <TypographyStyled junctionTime={junctionTime} index={index}>{element} s</TypographyStyled>
+                <ArrowForward />
+                <Typography>{+junctionTransmit[1][index].toFixed(2)} {lineColor==="rgb(255, 99, 132)"?"V":"A"}</Typography>
+                <ArrowBack />
+                <Typography>{+junctionTransmit[0][index].toFixed(2)} {lineColor==="rgb(255, 99, 132)"?"V":"A"}</Typography>
                 </Stack>
               </Stack>
-              <Divider style={{width:"5px", height:"200px", backgroundColor:lineColor}} type="vertical" />
+
             </Fragment>
           )
         })
@@ -40,5 +48,12 @@ const LatticeDiagram = ({index, junctionTime, junctionTransmit, lineColor, coeff
     </div>
   )
 }
-
+const DividerStyled = styled(Divider)`
+  width: 5px;
+  height: ${props=>(!isNaN(props.junctionTime[props.index - 1])?props.junctionTime[props.index]-props.junctionTime[props.index - 1]:props.junctionTime[props.index])*100}px;
+  background-color: ${props => props.lineColor};
+`
+const TypographyStyled = styled(Typography)`
+display: ${props=> props.junctionTime[props.index - 1]===props.junctionTime[props.index]?"none":"Block"};
+`
 export default LatticeDiagram

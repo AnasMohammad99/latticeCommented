@@ -48,6 +48,12 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     let tInitial = 0
     voltageR[0].push(Vi*tauF[0])
     currentR[0].push(Ii*tauiF[0])
+    voltageL[0].push(Vi*rhoF[0])
+    currentL[0].push(Ii*rhoiF[0])
+    voltageR[numOfJ-1].push(0)
+    currentR[numOfJ-1].push(0)
+    voltageL[numOfJ-1].push(0)
+    currentL[numOfJ-1].push(0)
     let m = 1
     while (m<=numOfJ-2) {
         tInitial = tInitial + T[m-1]
@@ -68,12 +74,10 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
 
                 voltageL[m].push((voltageL[m][i-1])*rhoR[m-1]*rhoF[m]);
                 voltageR[m].push((voltageL[m][i-1])*rhoR[m-1]*tauF[m]);
-                //voltage[m].push((voltage[m][voltage[m].length-1])+voltageR[m][voltageR[m].length-1]);
                 voltageTr[m].push(voltageR[m][voltageR[m].length-1]);
                 //----------------
                 currentL[m].push((currentL[m][i-1])*rhoiR[m-1]*rhoiF[m]);
                 currentR[m].push((currentL[m][i-1])*rhoiR[m-1]*tauiF[m]);
-                //current[m].push((current[m][current[m].length-1])+currentR[m][currentR[m].length-1]);
                 currentTr[m].push(currentR[m][currentR[m].length-1]);
            }else{
                 time[m].push(time[m-1][i]+T[m-1]);
@@ -96,19 +100,18 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
                 if(j>1){
                     Tadd = Tadd +T[m-1+j]
                     TauMultiply = TauMultiply*tauF[j]*tauR[j]
-                    Tadd = Tadd +T[m-1+j]
+                    //السطر اللي مزعل عمرو
+                    // Tadd = Tadd +T[m-1+j]
                     TauiMultiply = TauiMultiply*tauiF[j]*tauiR[j]
                 
                 } 
                 time[m].push(time[m][i-1]+2*Tadd)
                 voltageL[m].push(voltageR[m][i-1]*tauR[m]*rhoF[m+j]*TauMultiply)
                 voltageR[m].push(voltageR[m][i-1]*rhoR[m]*rhoF[m+j]*TauMultiply)
-                //voltage[m].push((voltage[m][voltage[m].length-1])+voltageL[m][voltageL[m].length-1])
                 voltageTr[m].push(voltageL[m][voltageL[m].length-1])
                 //-------------current
                 currentL[m].push(currentR[m][i-1]*tauiR[m]*rhoiF[m+j]*TauiMultiply)
                 currentR[m].push(currentR[m][i-1]*rhoiR[m]*rhoiF[m+j]*TauiMultiply)
-                // current[m].push((current[m][current[m].length-1])+currentL[m][currentL[m].length-1])
                 currentTr[m].push(currentL[m][currentL[m].length-1])
                 j++
             }
@@ -133,19 +136,21 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     let t01 = T[0]
     let t02 = T[numOfJ-2]
     while(i<=numOfIterations){
-        // if(twoj===1){
-        //     j = i+1;
-        //     t01 = -T[0]
-        //     t02 = -T[numOfJ-2]
-        // } else {
-        //     j=i;
-        // }
             time[0].push(time[1][i-1]+t01)
             time[numOfJ-1].push(time[numOfJ-2][i-1]+t02)
             voltageTr[0].push((voltageL[1][i-1])*tauR[0])
             voltageTr[numOfJ-1].push((voltageR[numOfJ-2][i-1])*tauF[numOfJ-1])
             currentTr[0].push((currentL[1][i-1])*tauiR[0])
             currentTr[numOfJ-1].push((currentR[numOfJ-2][i-1])*tauiF[numOfJ-1])
+            //-----------------------------left and right values for the diagram-------------------------
+            voltageL[0].push((voltageL[1][i-1])*tauR[0])
+            voltageR[0].push((voltageL[1][i-1])*rhoR[0])
+            voltageL[numOfJ-1].push((voltageR[numOfJ-2][i-1])*rhoF[numOfJ-1])
+            voltageR[numOfJ-1].push((voltageR[numOfJ-2][i-1])*tauF[numOfJ-1])
+            currentL[0].push((currentL[1][i-1])*tauR[0])
+            currentR[0].push((currentL[1][i-1])*rhoR[0])
+            currentL[numOfJ-1].push((currentR[numOfJ-2][i-1])*rhoF[numOfJ-1])
+            currentR[numOfJ-1].push((currentR[numOfJ-2][i-1])*tauF[numOfJ-1])
             i++
         }
 
@@ -155,7 +160,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     let newTime = Array.from({ length: numOfJ }, () => [])
         let temp;
         
-        function converter(arrV,arrC,arrT) {
+        function converter(arrV,arrC,arrT,arrVL,arrVR,arrIL,arrIR) {
             for(let i=0; i<arrT.length; i++) {
           
               for (let j=i+1; j<arrT.length; j++) {
@@ -171,12 +176,25 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
                   temp = arrC[i]
                   arrC[i] = arrC[j]
                   arrC[j] = temp
+                  //-----------------arrange V and I for diagram
+                  temp = arrVL[i]
+                  arrVL[i] = arrVL[j]
+                  arrVL[j] = temp
+                  temp = arrVR[i]
+                  arrVR[i] = arrVR[j]
+                  arrVR[j] = temp
+                  temp = arrIL[i]
+                  arrIL[i] = arrIL[j]
+                  arrIL[j] = temp
+                  temp = arrIR[i]
+                  arrIR[i] = arrIR[j]
+                  arrIR[j] = temp
                 }
               }
             }
-            return [arrV, arrC, arrT]
+            return [arrV, arrC, arrT,arrVL,arrVR,arrIL,arrIR]
           }
-        time.map((arr, index)=>converter(voltageTr[index], currentTr[index], time[index]))
+        time.map((arr, index)=>converter(voltageTr[index], currentTr[index], time[index],voltageL[index], voltageR[index], currentL[index], currentR[index]))
         //---------------------accumiltate V and I transmitted--------------------
         for (let i = 0; i < numOfJ; i++) {
             for (let j = 1; j < time[i].length; j++) {
@@ -203,10 +221,15 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
                     [newCurrent[0],newCurrent[2]], 
                     [newTime[0],newTime[2]], 
                     [[tauF[0],tauF[2]], [tauR[0],tauR[2]], [rhoF[0],rhoF[2]],[rhoR[0],rhoR[2]]], 
-                    [[tauiF[0],tauiF[2]], [tauiR[0],tauiR[2]], [rhoiF[0],rhoiF[2]],[rhoiR[0],rhoiR[2]]]
+                    [[tauiF[0],tauiF[2]], [tauiR[0],tauiR[2]], [rhoiF[0],rhoiF[2]],[rhoiR[0],rhoiR[2]]],
+                    [voltageL[0],voltageL[2]],
+                    [voltageR[0],voltageR[2]],
+                    [currentL[0],currentL[2]],
+                    [currentR[0],currentR[2]],
+                    [time[0],time[2]],
                 ]
         }
-        return [newVoltage, newCurrent, newTime, voltCoefficients, currentCoeffecients]
+        return [newVoltage, newCurrent, newTime, voltCoefficients, currentCoeffecients, voltageL, voltageR, currentL, currentR, time]
         // console.dir(time, {'maxArrayLength': null});
 }
 // console.log(AllCalculations(.5, 3, [200, 400, 40, Infinity], [450,300], [300,150]));

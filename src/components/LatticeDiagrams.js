@@ -8,7 +8,7 @@ const LatticeDiagrams = ({lineColor, transmit, timeArr, coefficients}) => {
         {
           timeArr.map((junctionTime, index)=>{
             return(
-              <LatticeDiagram coefficients={coefficients} lineColor={lineColor} key={index} index={index} junctionTime={junctionTime.slice(0,5)} junctionTransmit={transmit[index].slice(0,5)} />
+              <LatticeDiagram coefficients={coefficients} lineColor={lineColor} key={index} index={index} junctionTime={junctionTime.slice(0,6)} junctionTransmit={[transmit[0][index].slice(0,6), transmit[1][index].slice(0,6)]} />
             )
           })
         }

@@ -11,15 +11,19 @@ function App() {
   const [numOfJunctions, setNumOfJunctions] = useState("");
   const [numOfJunctionsSended, setNumOfJunctionsSended] = useState(""); 
   let [amplitude, NumOfJ, Z=[], length=[], velocity=[], twoj, numOfIterations] = threeJValues
-  let [voltageArr, currentArr, timeArr, voltCoefficients, currentCoeffecients]=[[],[],[],[],[]]
+  let [voltageArr, currentArr, timeArr, voltCoefficients, currentCoeffecients, voltageLArr, voltageRArr, currentLArr, currentRArr,timeDiagramArr]=[[],[],[],[],[],[],[],[],[],[]]
   if(NumOfJ>1){
-    [voltageArr, currentArr, timeArr, voltCoefficients, currentCoeffecients] = AllCalculations(amplitude,NumOfJ,Z,length,velocity, twoj, numOfIterations);
+    [voltageArr, currentArr, timeArr, voltCoefficients, currentCoeffecients, voltageLArr, voltageRArr, currentLArr, currentRArr,timeDiagramArr] = AllCalculations(amplitude,NumOfJ,Z,length,velocity, twoj, numOfIterations);
   }
     function handleFormOfProblem(event) {
       event.preventDefault();
       setNumOfJunctionsSended(numOfJunctions)
     }
-
+    //get rid of initial Zeros in last junctions
+    let timeDiagramArr2
+    if(timeDiagramArr.length>0){
+      timeDiagramArr2 = [...timeDiagramArr.slice(0,timeDiagramArr.length-1),timeDiagramArr[timeDiagramArr.length-1].slice(1,)]
+    }
   return (
     <Wrapper>
       <ProjectTitle>
@@ -57,13 +61,13 @@ function App() {
           </LatticeChartWrapper>
           <LatticeTransmitWrapper>
             {
-              threeJValues[1]>1?<LatticeDiagrams coefficients = {voltCoefficients} lineColor="rgb(255, 99, 132)" transmit={voltageArr} timeArr={timeArr} />:
+              threeJValues[1]>1?<LatticeDiagrams coefficients = {voltCoefficients} lineColor="rgb(255, 99, 132)" transmit={[voltageLArr, voltageRArr]} timeArr={timeDiagramArr2} />:
               null
             }
           </LatticeTransmitWrapper>
           <LatticeTransmitWrapper>
             {
-              threeJValues[1]>1?<LatticeDiagrams coefficients = {currentCoeffecients} lineColor="rgb(53, 162, 235)" transmit={currentArr} timeArr={timeArr} />:
+              threeJValues[1]>1?<LatticeDiagrams coefficients = {currentCoeffecients} lineColor="rgb(53, 162, 235)" transmit={[currentLArr, currentRArr]} timeArr={timeDiagramArr2} />:
               null
             }
           </LatticeTransmitWrapper>
