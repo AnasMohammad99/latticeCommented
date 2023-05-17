@@ -21,8 +21,14 @@ function App() {
     }
     //get rid of initial Zeros in last junctions
     let timeDiagramArr2
+    let voltDiagramArr2
+    let currentDiagramArr2
     if(timeDiagramArr.length>0){
       timeDiagramArr2 = [...timeDiagramArr.slice(0,timeDiagramArr.length-1),timeDiagramArr[timeDiagramArr.length-1].slice(1,)]
+      voltDiagramArr2 = [[...voltageLArr.slice(0,voltageLArr.length-1),voltageLArr[voltageLArr.length-1].slice(1,)],
+                         [...voltageRArr.slice(0,voltageRArr.length-1),voltageRArr[voltageRArr.length-1].slice(1,)]]
+      currentDiagramArr2 = [[...currentLArr.slice(0,currentLArr.length-1),currentLArr[currentLArr.length-1].slice(1,)],
+                            [...currentRArr.slice(0,currentRArr.length-1),currentRArr[currentRArr.length-1].slice(1,)]]
     }
   return (
     <Wrapper>
@@ -61,13 +67,13 @@ function App() {
           </LatticeChartWrapper>
           <LatticeTransmitWrapper>
             {
-              threeJValues[1]>1?<LatticeDiagrams coefficients = {voltCoefficients} lineColor="rgb(255, 99, 132)" transmit={[voltageLArr, voltageRArr]} timeArr={timeDiagramArr2} />:
+              threeJValues[1]>1?<LatticeDiagrams coefficients = {voltCoefficients} lineColor="rgb(255, 99, 132)" transmit={voltDiagramArr2} timeArr={timeDiagramArr2} />:
               null
             }
           </LatticeTransmitWrapper>
           <LatticeTransmitWrapper>
             {
-              threeJValues[1]>1?<LatticeDiagrams coefficients = {currentCoeffecients} lineColor="rgb(53, 162, 235)" transmit={[currentLArr, currentRArr]} timeArr={timeDiagramArr2} />:
+              threeJValues[1]>1?<LatticeDiagrams coefficients = {currentCoeffecients} lineColor="rgb(53, 162, 235)" transmit={currentDiagramArr2} timeArr={timeDiagramArr2} />:
               null
             }
           </LatticeTransmitWrapper>

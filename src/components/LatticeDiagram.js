@@ -12,7 +12,7 @@ const LatticeDiagram = ({index, junctionTime, junctionTransmit, lineColor, coeff
       <Stack style={{margin:"10px", width:"fit-content", minWidth:"12.5rem", display:"flex", justifyContent:"center", alignItems:"center"}}>
         <Typography style={{width:"fit-content" }}>Junction {index+1}</Typography>
         <Stack style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-          <Typography>Tau = {+coefficients[0][index].toFixed(2)}, rho = {+coefficients[2][index].toFixed(2)}</Typography>
+          <Typography>TauF = {+coefficients[0][index].toFixed(2)}, rhoF = {+coefficients[2][index].toFixed(2)}</Typography>
           <KeyboardDoubleArrowRight />
         </Stack>
         <Stack style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
@@ -32,7 +32,7 @@ const LatticeDiagram = ({index, junctionTime, junctionTransmit, lineColor, coeff
                />
               <Stack style={{display:"flex", flexDirection:"row"}}>
                 <Stack style={{alignItems:"center"}}>
-                <TypographyStyled junctionTime={junctionTime} index={index}>{element} s</TypographyStyled>
+                <TypographyStyled junctionTime={junctionTime} index={index}>{element} &#181;s</TypographyStyled>
                 <ArrowForward />
                 <Typography>{+junctionTransmit[1][index].toFixed(2)} {lineColor==="rgb(255, 99, 132)"?"V":"A"}</Typography>
                 <ArrowBack />

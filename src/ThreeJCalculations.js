@@ -60,8 +60,8 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
         time[m].push(tInitial)
         voltageL[m].push(voltageR[m-1][0]*rhoF[m])
         voltageR[m].push(voltageR[m-1][0]*tauF[m])
-        voltage[m].push(voltageR[m][0])
         voltageTr[m].push(voltageR[m][0])
+        voltage[m].push(voltageR[m][0])
         //---------------------------
         currentL[m].push(currentR[m-1][0]*rhoiF[m])
         currentR[m].push(currentR[m-1][0]*tauiF[m])
@@ -69,6 +69,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
         currentTr[m].push(currentR[m][0])
         let i = 1
         while (i<=numOfIterations) {
+        //get V,I left and right that comming from left of the m junction
            if(m===1){
                 time[m].push(time[m][i-1]+2*T[m-1]);
 
@@ -90,7 +91,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
                 currentR[m].push((currentR[m-1][i])*tauiF[m]);
                 currentTr[m].push(currentR[m][currentR[m].length-1]);
            }
-
+        //get V,I left and right that comming from right of the m junction
             let Tadd = T[m]
             let TauMultiply = 1
             //--------------------------
@@ -98,11 +99,11 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
             let j = 1
             while (j<= numOfJ-m-1) {
                 if(j>1){
-                    Tadd = Tadd +T[m-1+j]
-                    TauMultiply = TauMultiply*tauF[j]*tauR[j]
+                    Tadd = Tadd +T[m+j-1]
+                    TauMultiply = TauMultiply*tauF[m+j-1]*tauR[m+j-1]
                     //السطر اللي مزعل عمرو
                     // Tadd = Tadd +T[m-1+j]
-                    TauiMultiply = TauiMultiply*tauiF[j]*tauiR[j]
+                    TauiMultiply = TauiMultiply*tauiF[m+j-1]*tauiR[m+j-1]
                 
                 } 
                 time[m].push(time[m][i-1]+2*Tadd)
@@ -123,6 +124,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     let i = 1
     time[0].push(0)
     time[numOfJ-1].push(0)
+    //add first junction V and I initial value based on V and I incident and initiate last J values with 0 at 0 second
     voltage[0].push(Vi*tauF[0])
     voltage[numOfJ-1].push(0)
     voltageTr[0].push(voltage[0][0])
@@ -132,10 +134,11 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
     current[numOfJ-1].push(0)
     currentTr[0].push(current[0][0])
     currentTr[numOfJ-1].push(0)
-  //  let j = 2;
     let t01 = T[0]
     let t02 = T[numOfJ-2]
     while(i<=numOfIterations){
+        //add first junction V and I values based on left values of the junction 2 and m junction V and I values based on right values of the junction m-1
+        //m the last junction
             time[0].push(time[1][i-1]+t01)
             time[numOfJ-1].push(time[numOfJ-2][i-1]+t02)
             voltageTr[0].push((voltageL[1][i-1])*tauR[0])
@@ -154,19 +157,19 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
             i++
         }
 
-//---------------------------remove repeated values---------------------
+//---------------------------arrange arrays based on time values---------------------
     let newVoltage = Array.from({ length: numOfJ }, () => [])
     let newCurrent = Array.from({ length: numOfJ }, () => [])
     let newTime = Array.from({ length: numOfJ }, () => [])
         let temp;
-        
         function converter(arrV,arrC,arrT,arrVL,arrVR,arrIL,arrIR) {
             for(let i=0; i<arrT.length; i++) {
           
               for (let j=i+1; j<arrT.length; j++) {
-          
+                //if the current time higher than next time switch them and corresponding values in volt and current arrays
                 if(arrT[i] > arrT[j]) {
-          
+                  //-----------------arrange V and I for charts
+                  //here we arrange voltage and current arrays
                   temp = arrT[i]
                   arrT[i] = arrT[j]
                   arrT[j] = temp
@@ -177,6 +180,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
                   arrC[i] = arrC[j]
                   arrC[j] = temp
                   //-----------------arrange V and I for diagram
+                  //here we arrange voltage L&R and current L&R arrays
                   temp = arrVL[i]
                   arrVL[i] = arrVL[j]
                   arrVL[j] = temp
@@ -214,7 +218,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
                         }
                     }
             }
-
+        //this if statement remove the fake junction values that we created to solve 2J problems
         if(twoj){
             return [
                     [newVoltage[0],newVoltage[2]],
@@ -229,6 +233,7 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
                     [time[0],time[2]],
                 ]
         }
+        // console.log([Z, newVoltage, newCurrent, newTime, voltCoefficients, currentCoeffecients, voltageL, voltageR, currentL, currentR, time])
         return [newVoltage, newCurrent, newTime, voltCoefficients, currentCoeffecients, voltageL, voltageR, currentL, currentR, time]
         // console.dir(time, {'maxArrayLength': null});
 }
