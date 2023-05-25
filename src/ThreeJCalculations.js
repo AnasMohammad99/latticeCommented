@@ -1,5 +1,5 @@
 function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0, numOfIterations) {
-    // let numOfIterations = 1000;
+    
     let Vi = amplitude*1000;
     let Ii = Z[0]===0?Vi/(1e-15):Vi/Z[0]
     //for loop to create time to travel array
@@ -101,8 +101,8 @@ function AllCalculations(amplitude, numOfJ, Z=[], length=[], velocity=[], twoj=0
                 if(j>1){
                     Tadd = Tadd +T[m+j-1]
                     TauMultiply = TauMultiply*tauF[m+j-1]*tauR[m+j-1]
-                    //السطر اللي مزعل عمرو
-                    // Tadd = Tadd +T[m-1+j]
+
+                  
                     TauiMultiply = TauiMultiply*tauiF[m+j-1]*tauiR[m+j-1]
                 
                 } 
